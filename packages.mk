@@ -102,9 +102,3 @@ PRODUCT_PACKAGES += \
 # Third party apps
 PRODUCT_PACKAGES += \
     Eleven \
-    RotationControl \
-    NovaLauncher \
-    PixelUINova \
-    DuckDuckGo \
-    FDroid \
-    Aptoide \
