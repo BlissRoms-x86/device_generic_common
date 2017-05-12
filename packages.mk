@@ -99,7 +99,7 @@ PRODUCT_PACKAGES += \
     libffmpeg_omx \
     media_codecs_ffmpeg.xml
 
-# Third party apps
+# Third party apps, see https://github.com/hkoivuneva/android_packages_apps_prebuilt/
 PRODUCT_PACKAGES += \
     Eleven \
     RotationControl \
