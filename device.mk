@@ -123,6 +123,19 @@ PRODUCT_COPY_FILES += \
     device/generic/common/widevine/proprietary/libWVStreamControlAPI_L1.so:system/vendor/lib/libWVStreamControlAPI_L1.so \
     device/generic/common/widevine/proprietary/libwvdrmengine.so:system/vendor/lib/mediadrm/libwvdrmengine.so \
 
+# Widevine DRM blobs
+PRODUCT_COPY_FILES := \
+    device/generic/common/widevine/proprietary/com.google.widevine.software.drm.xml:system/etc/permissions/com.google.widevine.software.drm.xml:widevine \
+    device/generic/common/widevine/proprietary/com.google.widevine.software.drm.jar:system/framework/com.google.widevine.software.drm.jar:widevine \
+    device/generic/common/widevine/proprietary/libdrmframework.so:system/lib/arm/libdrmframework.so:widevine \
+    device/generic/common/widevine/proprietary/libdrmwvmplugin.so:system/vendor/lib/drm/libdrmwvmplugin.so:widevine \
+    device/generic/common/widevine/proprietary/libdrmdecrypt.so:system/vendor/lib/libdrmdecrypt.so:widevine \
+    device/generic/common/widevine/proprietary/liboemcrypto.so:system/vendor/lib/liboemcrypto.so:widevine \
+    device/generic/common/widevine/proprietary/libwvdrm_L1.so:system/vendor/lib/libwvdrm_L1.so:widevine \
+    device/generic/common/widevine/proprietary/libwvm.so:system/vendor/lib/libwvm.so:widevine \
+    device/generic/common/widevine/proprietary/libWVStreamControlAPI_L1.so:system/vendor/lib/libWVStreamControlAPI_L1.so:widevine \
+    device/generic/common/widevine/proprietary/libwvdrmengine.so:system/vendor/lib/mediadrm/libwvdrmengine.so:widevine \
+
 PRODUCT_TAGS += dalvik.gc.type-precise
 
 PRODUCT_CHARACTERISTICS := tablet
