@@ -308,6 +308,11 @@ function init_hal_sensors()
 			modprobe lis3lv02d_i2c
 			echo -n "enabled" > /sys/class/thermal/thermal_zone0/mode
 			;;
+		*Aspire*SW5-012*)
+			set_property ro.iio.accel.quirks no-trig
+			set_property ro.iio.anglvel.quirks no-trig
+			set_property ro.iio.accel.order 102
+			;;			
 		*ThinkPad*Tablet*)
 			modprobe hdaps
 			hal_sensors=hdaps
