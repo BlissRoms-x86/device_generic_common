@@ -10,3 +10,5 @@ none			/cache		tmpfs	nosuid,nodev,noatime	defaults
 /devices/*/000*:0*:*/000*:0*:*/mmc_*	auto	auto	defaults		voldmanaged=sdcard1:auto,encryptable=userdata
 /devices/*/PNP0FFF:00/mmc_*	auto	auto	defaults		voldmanaged=sdcard1:auto,encryptable=userdata
 /dev/block/zram0        none    swap    defaults	        zramsize=52%,max_comp_streams=4,swapprio=10,notrim
+
+share /mnt/vendor/shared virtiofs nosuid,nodev,noatime nofail
