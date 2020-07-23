@@ -31,6 +31,7 @@ on init
     write /proc/sys/vm/page-cluster 0
 
 on fs
+    mkdir /mnt/vendor/shared 0770 system system
     mount_all /fstab.${ro.hardware}
     swapon_all /fstab.${ro.hardware}
 
