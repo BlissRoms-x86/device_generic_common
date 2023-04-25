@@ -211,6 +211,15 @@ PRODUCT_BROKEN_VERIFY_USES_LIBRARIES := true
 #BLISS_BUILD_VARIANT := foss
 WITH_SU := false
 
+ifeq ($(IS_GO_VERSION),true)
+# Inherit common Android Go configurations
+$(call inherit-product, build/target/product/go_defaults.mk)
+PRODUCT_TYPE := go
+DONT_UNCOMPRESS_PRIV_APPS_DEXS := true
+MALLOC_SVELTE := true
+$(call inherit-product-if-exists, frameworks/base/data/sounds/AudioPackageGo.mk)
+endif
+
 # Widevine addons
 ifeq ($(USE_LIBNDK_TRANSLATION_NB),true)
 $(call inherit-product-if-exists, vendor/google/emu-x86/target/widevine.mk)
