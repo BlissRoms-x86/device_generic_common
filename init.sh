@@ -608,10 +608,66 @@ function set_lowmem()
 	fi
 }
 
+function set_usb_mode()
+{
+	# Set up usb/adb props when values are detected in /proc/cmdline
+	
+	for c in `cat /proc/cmdline`; do
+		case $c in
+			*=*)
+				eval $c
+				if [ -z "$1" ]; then
+					case $c in
+						FORCE_USE_ADB_CLIENT_MODE=1)
+							set_property persist.usb.debug 1
+							set_property persist.adb.notify 0
+							set_property persist.sys.usb.config "mtp,adb"
+							set_property ro.secure 0
+							set_property ro.adb.secure 0
+							set_property ro.debuggable 1
+							set_property service.adb.root 1
+							set_property persist.sys.root_access 1
+							set_property persist.service.adb.enable 1
+							set_property service.adb.tcp.port 5555
+							;;
+						FORCE_USE_ADB_CLIENT_MODE=0)
+							set_property persist.usb.debug 0
+							set_property persist.adb.notify 1
+							set_property persist.sys.usb.config "mtp"
+							set_property ro.secure 1
+							set_property ro.adb.secure 1
+							set_property ro.debuggable 0
+							set_property service.adb.root 0
+							set_property persist.sys.root_access 0
+							set_property persist.service.adb.enable 0
+							set_property service.adb.tcp.port 5555
+							;;
+						FORCE_USE_ADB_MASS_STORAGE=*)
+							usb_config=$(getprop persist.sys.usb.config)
+							if [ "$FORCE_USE_ADB_MASS_STORAGE" == 1 ]; then
+								ms_value=",mass_storage"
+							else
+								ms_value=""
+							fi
+							if [ -z "$usb_config" ]; then
+						        set_property persist.sys.usb.config "$ms_value"
+							else
+								set_property persist.sys.usb.config "$usb_config$ms_value"
+							fi
+        					set_property persist.usb.debug "$FORCE_USE_ADB_MASS_STORAGE"
+							;;
+					esac
+				fi
+				;;
+		esac
+	done
+}
+
 function do_init()
 {
 	init_misc
 	set_lowmem
+	set_usb_mode
 	init_hal_audio
 	init_hal_bluetooth
 	init_hal_camera
