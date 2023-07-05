@@ -646,6 +646,36 @@ function init_loop_links()
 	ln -s /dev/block/by-name/kernel_b /dev/block/by-name/boot_b
 }
 
+
+function set_custom_package_perms()
+{
+	# Set up custom package permissions
+
+	# SmartDock
+	exists_smartdock=$(pm list packages cu.axel.smartdock | grep -c cu.axel.smartdock)
+	if [ $exists_smartdock -eq 1 ]; then
+		pm grant cu.axel.smartdock android.permission.WRITE_SECURE_SETTINGS
+		pm grant cu.axel.smartdock android.permission.SYSTEM_ALERT_WINDOW
+		pm grant cu.axel.smartdock android.permission.GET_TASKS
+		pm grant cu.axel.smartdock android.permission.REORDER_TASKS
+		pm grant cu.axel.smartdock android.permission.REMOVE_TASKS
+		pm grant cu.axel.smartdock android.permission.ACCESS_WIFI_STATE
+		pm grant cu.axel.smartdock android.permission.CHANGE_WIFI_STATE
+		pm grant cu.axel.smartdock android.permission.ACCESS_NETWORK_STATE
+		pm grant cu.axel.smartdock android.permission.ACCESS_FINE_LOCATION
+		pm grant cu.axel.smartdock android.permission.READ_EXTERNAL_STORAGE
+		pm grant cu.axel.smartdock android.permission.MANAGE_USERS
+		pm grant cu.axel.smartdock android.permission.BLUETOOTH_ADMIN
+		pm grant cu.axel.smartdock android.permission.BLUETOOTH_CONNECT
+		pm grant cu.axel.smartdock android.permission.BLUETOOTH
+		pm grant cu.axel.smartdock android.permission.REQUEST_DELETE_PACKAGES
+		pm grant cu.axel.smartdock android.permission.ACCESS_SUPERUSER
+		pm grant cu.axel.smartdock android.permission.PACKAGE_USAGE_STATS
+		pm grant cu.axel.smartdock android.permission.QUERY_ALL_PACKAGES
+	fi
+	
+}
+
 function do_init()
 {
 	init_misc
@@ -748,7 +778,8 @@ function do_bootcomplete()
 	#nohup env LD_LIBRARY_PATH=$(echo /data/app/*/xtr.keymapper*/lib/x86_64) \
 	#CLASSPATH=$(echo /data/app/*/xtr.keymapper*/base.apk) /system/bin/app_process \
 	#/system/bin xtr.keymapper.server.InputService > /dev/null 2>&1 &
-
+	
+	set_custom_package_perms
 	post_bootcomplete
 }
 
