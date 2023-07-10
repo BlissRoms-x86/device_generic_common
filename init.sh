@@ -735,6 +735,9 @@ for c in `cat /proc/cmdline`; do
 						[ -n "$DEBUG" ] && set_property debug.logcat 1
 						[ "$DEBUG" = "0" ] || SETUPWIZARD=${SETUPWIZARD:-0}
 						;;
+					SET_LOGCAT_DEBUG=*)
+						set_property debug.logcat "$SET_LOGCAT_DEBUG"
+						;;
 					DPI=*)
 						set_property ro.sf.lcd_density "$DPI"
 						;;
