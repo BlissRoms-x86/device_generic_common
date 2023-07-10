@@ -695,12 +695,47 @@ function set_custom_timezone()
 	
 }
 
+function set_max_logd()
+{
+	for c in `cat /proc/cmdline`; do
+		case $c in
+			*=*)
+				eval $c
+				if [ -z "$1" ]; then
+					case $c in
+						# Set TimeZone
+						SET_MAX_LOGD=*)
+							if [ "$SET_MAX_LOGD" == 1 ]; then
+								size_value="8388608"
+								radio_size_value="4M"
+								system_size_value="4M"
+								crash_size_value="1M"
+							else
+								size_value=""
+								radio_size_value=""
+								system_size_value=""
+								crash_size_value=""
+							fi
+							setprop persist.logd.size "$size_value"
+							setprop persist.logd.size.radio "$radio_size_value"
+							setprop persist.logd.size.system "$system_size_value"
+							setprop persist.logd.size.crash "$crash_size_value"
+							;;
+					esac
+				fi
+				;;
+		esac
+	done
+	
+}
+
 function do_init()
 {
 	init_misc
 	set_lowmem
 	set_usb_mode
 	set_custom_timezone
+	set_max_logd
 	init_hal_audio
 	init_hal_bluetooth
 	init_hal_camera
