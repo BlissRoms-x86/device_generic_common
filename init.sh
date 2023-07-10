@@ -602,7 +602,7 @@ function set_lowmem()
 
 	if [ "$mem_size" -le "$SIZE_512MB" ]
 	then
-		setprop ro.config.low_ram true
+		setprop ro.config.low_ram ${FORCE_LOW_MEM:-true}
 	else
 		setprop ro.config.low_ram false
 	fi
