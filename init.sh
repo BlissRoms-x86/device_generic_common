@@ -618,6 +618,16 @@ function set_usb_mode()
 				eval $c
 				if [ -z "$1" ]; then
 					case $c in
+						FORCE_USE_ADB_CLIENT_MODE=2)
+							set_property persist.adb.notify 0
+							set_property ro.secure 0
+							set_property ro.adb.secure 0
+							set_property ro.debuggable 1
+							set_property service.adb.root 1
+							set_property persist.sys.root_access 1
+							set_property persist.service.adb.enable 1
+							set_property service.adb.tcp.port 5555
+							;;
 						FORCE_USE_ADB_CLIENT_MODE=1)
 							set_property persist.usb.debug 1
 							set_property persist.adb.notify 0
