@@ -35,6 +35,12 @@ PRODUCT_PRODUCT_PROPERTIES += \
     ro.lmk.use_psi=true \
     ro.lmk.use_new_strategy=false
 
+# Go mode tweaks
+ifeq ($(IS_GO_VERSION),true)
+PRODUCT_PRODUCT_PROPERTIES += \
+    supplicant_scan_interval=200
+endif
+
 PRODUCT_COPY_FILES := \
     $(if $(wildcard $(PRODUCT_DIR)init.rc),$(PRODUCT_DIR)init.rc:root/init.rc) \
     $(if $(wildcard $(PRODUCT_DIR)init.sh),$(PRODUCT_DIR),$(LOCAL_PATH)/)init.sh:system/etc/init.sh \
