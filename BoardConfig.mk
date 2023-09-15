@@ -118,7 +118,7 @@ DEVICE_MANIFEST_FILE := device/generic/common/manifest.xml
 #                       vendor/intel/proprietary/houdini/sepolicy \
 #                       vendor/google/proprietary/widevine-prebuilt/sepolicy
 #
-#BOARD_PLAT_PRIVATE_SEPOLICY_DIR := device/generic/common/sepolicy/plat_private
+BOARD_PLAT_PRIVATE_SEPOLICY_DIR := device/generic/common/sepolicy/plat_private
 
 BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 4294967296
