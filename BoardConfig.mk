@@ -104,6 +104,7 @@ BOARD_MESA3D_GALLIUM_DRIVERS := crocus iris i915 nouveau r600 radeonsi svga virg
 BOARD_MESA3D_VULKAN_DRIVERS := amd intel intel_hasvk virtio swrast nouveau
 BOARD_MESA3D_GALLIUM_VA := enabled
 BOARD_MESA3D_VIDEO_CODECS := h264dec h264enc h265dec h265enc vc1dec
+BOARD_MESA3D_MESON_ARGS := -Dallow-kcmp=enabled
 BUILD_EMULATOR_OPENGL := true
 
 BOARD_KERNEL_CMDLINE := root=/dev/ram0$(if $(filter x86_64,$(TARGET_ARCH) $(TARGET_KERNEL_ARCH)),, vmalloc=192M)
