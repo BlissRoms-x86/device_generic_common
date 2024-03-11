@@ -4,6 +4,8 @@
 
 TARGET_BOARD_PLATFORM := android-x86
 
+LOCAL_COMMON_TREE := device/generic/common
+
 ## Use EROFS image or SquashFS
 USE_SQUASHFS := 1
 USE_EROFS := 0
@@ -40,7 +42,7 @@ endif
 # the following variables could be overridden
 TARGET_PRELINK_MODULE := false
 TARGET_NO_KERNEL ?= false
-TARGET_NO_RECOVERY ?= true
+#TARGET_NO_RECOVERY ?= true
 TARGET_EXTRA_KERNEL_MODULES := 
 ifneq ($(filter efi_img,$(MAKECMDGOALS)),)
 TARGET_KERNEL_ARCH ?= x86_64
@@ -170,6 +172,7 @@ BOARD_PLAT_PRIVATE_SEPOLICY_DIR := device/generic/common/sepolicy/plat_private
 
 BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 4718592000
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 100663296
 TARGET_USERIMAGES_SPARSE_EXT_DISABLED := true
 BOARD_USES_OEMIMAGE := true
 BUILD_BROKEN_USES_NETWORK := true
@@ -190,3 +193,6 @@ STAGEFRIGHT_AVCENC_CFLAGS := -DANDROID_GCE
 BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
 TARGET_VENDOR_PROP += device/generic/common/props/vendor.prop
 TARGET_SYSTEM_PROP += device/generic/common/system.prop
+
+# Recovery
+TARGET_RECOVERY_FSTAB :=$(LOCAL_COMMON_TREE)/recovery.fstab
