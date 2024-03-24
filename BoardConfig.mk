@@ -16,7 +16,8 @@ AB_OTA_UPDATER := true
 AB_OTA_PARTITIONS += \
     system \
     initrd \
-    kernel
+    kernel \
+	ramdisk-recovery
 
 # Rootfs
 BOARD_ROOT_EXTRA_FOLDERS := grub
