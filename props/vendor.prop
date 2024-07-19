@@ -1,4 +1,2 @@
-import /system/vendor/etc/device.prop
-
 # DHCP
 vendor.recovery.dhcpclient.iface?=eth0

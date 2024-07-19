@@ -144,8 +144,7 @@ PRODUCT_PACKAGES += \
 ## Enable hidden features on Android
 PRODUCT_PACKAGES += \
 	pc.xml \
-	hpe.xml \
-	device.prop
+	hpe.xml
 
 ifeq ($(USE_BLISS_SETUPWIZARD), true)
 
