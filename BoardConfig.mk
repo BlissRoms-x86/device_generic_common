@@ -205,8 +205,8 @@ TARGET_SYSTEM_PROP += device/generic/common/system.prop
 TARGET_RECOVERY_FSTAB :=$(LOCAL_COMMON_TREE)/recovery.fstab
 
 # Init
-TARGET_INIT_VENDOR_LIB ?= //$(LOCAL_COMMON_TREE):init_xiaomi_kona
-TARGET_RECOVERY_DEVICE_MODULES ?= init_xiaomi_kona
+TARGET_INIT_VENDOR_LIB ?= //$(LOCAL_COMMON_TREE):init_x86
+TARGET_RECOVERY_DEVICE_MODULES ?= init_x86
 
 # Include GloDroid components
 include device/generic/common/glodroid/BoardConfig_glodroid.mk
