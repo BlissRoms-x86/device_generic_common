@@ -150,9 +150,8 @@ PRODUCT_PACKAGES += \
 ## Enable hidden features on Android
 PRODUCT_PACKAGES += \
 	pc.xml \
-	hpe.xml \
-	device.prop
-    
+	hpe.xml
+
 # Some additional CLI programs
 PRODUCT_PACKAGES += tput dialog alsa-info.sh tree lspci dmidecode evtest
 
