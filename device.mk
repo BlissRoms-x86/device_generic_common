@@ -188,9 +188,6 @@ $(call inherit-product-if-exists,$(LOCAL_PATH)/gpu/gpu_mesa.mk)
 # Get the sensors hals
 $(call inherit-product-if-exists,hardware/libsensors/sensors.mk)
 
-# Get tablet dalvik parameters
-$(call inherit-product,frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-heap.mk)
-
 ifeq ($(USE_LIBNDK_TRANSLATION_NB),true)
 $(call inherit-product-if-exists, vendor/google/emu-x86/target/libndk_translation.mk)
 $(call inherit-product-if-exists, vendor/google/emu-x86/target/native_bridge_arm_on_x86.mk)
