@@ -62,15 +62,6 @@ PRODUCT_PROPERTY_OVERRIDES := \
     external_storage.casefold.enabled=1 \
     external_storage.projid.enabled=1
 
-# LMKd
-ifneq ($(BOARD_IS_GO_BUILD),true)
-PRODUCT_PRODUCT_PROPERTIES += \
-    ro.lmk.critical_upgrade=true \
-    ro.lmk.use_minfree_levels=true \
-    ro.lmk.use_psi=true \
-    ro.lmk.use_new_strategy=false
-endif
-
 PRODUCT_COPY_FILES := \
     $(if $(wildcard $(PRODUCT_DIR)init.rc),$(PRODUCT_DIR)init.rc:root/init.rc) \
     $(if $(wildcard $(PRODUCT_DIR)init.sh),$(PRODUCT_DIR),$(LOCAL_PATH)/)init.sh:system/etc/init.sh \
@@ -150,6 +141,12 @@ PRODUCT_COPY_FILES += \
 # Copy Misc Config Files
 PRODUCT_COPY_FILES += \
     $(foreach f,$(wildcard $(LOCAL_PATH)/idc/*.idc $(LOCAL_PATH)/keylayout/*.kl),$(f):$(subst $(LOCAL_PATH),system/usr,$(f)))
+
+# Go init
+ifeq ($(BOARD_IS_GO_BUILD),true)
+PRODUCT_COPY_FILES += \
+    $(if $(wildcard $(PRODUCT_DIR)init.low_performance.rc),$(PRODUCT_DIR)init.low_performance.rc,$(LOCAL_PATH)/init.low_performance.rc):$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.low_performance.rc
+endif
 
 # Recovery
 PRODUCT_COPY_FILES += \
