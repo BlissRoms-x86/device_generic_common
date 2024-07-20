@@ -1,3 +1,5 @@
+import /vendor/etc/init/hw/init.low_performance.rc
+
 on early-init
     write /proc/sys/kernel/ctrl-alt-del 1
 
