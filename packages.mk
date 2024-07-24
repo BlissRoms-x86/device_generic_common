@@ -165,3 +165,8 @@ PRODUCT_PACKAGES += iptsd_runner iptsd \
                     iptsd-dump \
                     iptsd-perf
 endif
+
+# For Recovery
+## DHCP client
+PRODUCT_PACKAGES += \
+    x86_dhcpclient.recovery
