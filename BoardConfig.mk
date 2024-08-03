@@ -173,7 +173,8 @@ BOARD_SEPOLICY_DIRS += device/generic/common/sepolicy/nonplat \
                        vendor/intel/proprietary/houdini/sepolicy \
                        vendor/google/proprietary/widevine-prebuilt/sepolicy
 
-BOARD_PLAT_PRIVATE_SEPOLICY_DIR += device/generic/common/sepolicy/plat_private
+BOARD_PLAT_PRIVATE_SEPOLICY_DIR += $(LOCAL_COMMON_TREE)/sepolicy/plat_private
+BOARD_PLAT_PUBLIC_SEPOLICY_DIR += $(LOCAL_COMMON_TREE)/sepolicy/public
 BOARD_VENDOR_SEPOLICY_DIRS += device/generic/common/sepolicy/vendor
 
 BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
