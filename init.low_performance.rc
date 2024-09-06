@@ -1,6 +1,6 @@
 on init
     setprop ro.config.low_ram true
-    setprop ro.hw_timeout_multiplier 10
+    setprop ro.hw_timeout_multiplier 50
 
     # Set lowram options
     setprop ro.lmk.critical_upgrade true
