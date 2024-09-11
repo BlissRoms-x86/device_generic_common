@@ -598,6 +598,12 @@ function init_hal_sensors()
         local hal_sensors=kbd
         local has_sensors=true
         case "$UEVENT" in
+	    *SW1-011*)
+                set_property ro.iio.accel.order 102
+                set_property ro.iio.accel.x.opt_scale 1
+                set_property ro.iio.accel.y.opt_scale 1
+                set_property ro.iio.accel.z.opt_scale 1
+                ;;
             *MS-N0E1*)
                 set_property ro.ignore_atkbd 1
                 set_property poweroff.doubleclick 0
