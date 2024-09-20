@@ -592,6 +592,9 @@ function init_hal_vulkan()
 		*virtio_gpu|*virtio-pci)
 			set_property ro.hardware.vulkan virtio
 			;;
+		*nouveau)
+			set_property ro.hardware.vulkan nouveau
+			;;
 		*)
 			set_property ro.hardware.vulkan pastel
 			;;
