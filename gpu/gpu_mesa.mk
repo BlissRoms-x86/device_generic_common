@@ -20,6 +20,7 @@ PRODUCT_PACKAGES := \
     vulkan.intel_hasvk \
     vulkan.radeon \
     vulkan.virtio \
+    vulkan.nouveau \
     vulkan.lvp \
     libEGL_angle \
     libGLESv1_CM_angle \
