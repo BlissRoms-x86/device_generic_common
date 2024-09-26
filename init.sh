@@ -252,8 +252,10 @@ function init_hal_bluetooth()
 
 	if [ "$BTLINUX_HAL" = "1" ]; then
 		start btlinux-1.1
+		set_property "ro.bliss.bthal" "btlinux"
 	else
 		start vendor.bluetooth-1-1
+		set_property "ro.bliss.bthal" "celadon"
 	fi
 }
 
