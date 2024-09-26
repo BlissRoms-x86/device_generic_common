@@ -5,6 +5,8 @@
  */
 
 #include <android-base/file.h>
+#include <android-base/properties.h>
+#include <sys/sysinfo.h>
 
 #include <libinit_dalvik_heap.h>
 #include <libinit_utils.h>
@@ -13,6 +15,7 @@
 
 #include <unordered_map>
 
+using android::base::GetProperty;
 using android::base::ReadFileToString;
 
 static const std::string kDmiIdPath = "/sys/devices/virtual/dmi/id/";
@@ -44,6 +47,13 @@ static bool is_lenovo() {
         return value == "Lenovo" || value == "LENOVO";
     }
     return false;
+}
+
+static void set_misc_properties() {
+    if (GetProperty("ro.boot.insecure_adb", "") == "1") {
+        property_override("ro.adb.secure", "0");
+        property_override("ro.secure", "0");
+    }
 }
 
 static void set_properties_from_dmi_id() {
@@ -85,5 +95,6 @@ static void set_properties_from_dmi_id() {
 
 void vendor_load_properties() {
     set_dalvik_heap();
+    set_misc_properties();
     set_properties_from_dmi_id();
 }
