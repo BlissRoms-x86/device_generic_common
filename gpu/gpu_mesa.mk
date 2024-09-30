@@ -37,6 +37,7 @@ PRODUCT_PACKAGES += \
     libgallium_dri \
     libglapi \
     libgbm_mesa_wrapper \
+    dri_gbm \
     i965_drv_video \
     crocus_drv_video \
     iHD_drv_video \
