@@ -92,8 +92,10 @@ TARGET_USES_HWC2 ?= true
 USE_CAMERA_STUB ?= false
 
 # This enables the wpa wireless driver
-BOARD_WPA_SUPPLICANT_DRIVER ?= NL80211
-WPA_SUPPLICANT_VERSION ?= VER_2_1_DEVEL
+# and hostapd tool
+BOARD_HOSTAPD_DRIVER := NL80211
+BOARD_WPA_SUPPLICANT_DRIVER := NL80211
+WPA_SUPPLICANT_VERSION := VER_0_8_X
 
 BOARD_GPU_DRIVERS ?= crocus i915 iris freedreno panfrost nouveau r300g r600g radeonsi virgl vmwgfx
 ifneq ($(strip $(BOARD_GPU_DRIVERS)),)
