@@ -197,11 +197,11 @@ STAGEFRIGHT_AVCENC_CFLAGS := -DANDROID_GCE
 
 # Properties
 BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
-TARGET_VENDOR_PROP += device/generic/common/props/vendor.prop
-TARGET_SYSTEM_PROP += device/generic/common/system.prop
+TARGET_VENDOR_PROP += $(LOCAL_COMMON_TREE)/properties/vendor.prop
+TARGET_SYSTEM_PROP += $(LOCAL_COMMON_TREE)/properties/system.prop
 
 # Recovery
-TARGET_RECOVERY_FSTAB :=$(LOCAL_COMMON_TREE)/recovery.fstab
+TARGET_RECOVERY_FSTAB := $(LOCAL_COMMON_TREE)/recovery.fstab
 
 # Init
 TARGET_INIT_VENDOR_LIB ?= //$(LOCAL_COMMON_TREE):init_x86
