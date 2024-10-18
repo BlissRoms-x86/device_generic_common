@@ -730,6 +730,7 @@ function init_hal_surface()
 	case "$UEVENT" in
 		*Surface*Pro*[4-9]*|*Surface*Book*|*Surface*Laptop*[1~4]*|*Surface*Laptop*Studio*)
 			start iptsd_runner
+   			modprobe soc_button_array
 			;;
 	esac
 }
