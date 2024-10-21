@@ -436,26 +436,26 @@ function init_egl()
 	set_property ro.hardware.egl ${EGL:-mesa}
 
 	if [ "$MESA_LLVMPIPE" -ge "1" ] || [ "$VULKAN" == "lvp" ]; then
-		export LIBGL_ALWAYS_SOFTWARE=true
+		set_property mesa.libgl.always.software true
 	fi
 
 	if [ "$MESA_ZINK" -ge "1" ]; then
-		export MESA_LOADER_DRIVER_OVERRIDE=zink
+		set_property mesa.loader.driver.override zink
 	fi
 
 	# Set OpenGLES version
 	case "$FORCE_GLES" in
         *3.0*)
     	    set_property ro.opengles.version 196608
-            export MESA_GLES_VERSION_OVERRIDE=3.0
+            set_property mesa.gles.version.override 3.0
 		;;
 		*3.1*)
     		set_property ro.opengles.version 196609
-			export MESA_GLES_VERSION_OVERRIDE=3.1
+            set_property mesa.gles.version.override 3.1
 		;;
 		*3.2*)
     		set_property ro.opengles.version 196610
-			export MESA_GLES_VERSION_OVERRIDE=3.2
+            set_property mesa.gles.version.override 3.2
 		;;
 		*)
     		set_property ro.opengles.version 196608
