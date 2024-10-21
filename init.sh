@@ -584,22 +584,22 @@ function init_hal_vulkan()
 	case "$(readlink /sys/class/graphics/fb0/device/driver)" in
 		*i915)
 			if [ "$(cat /sys/kernel/debug/dri/0/i915_capabilities | grep -e 'gen' -e 'graphics version' | awk '{print $NF}')" -lt 9 ]; then
-				set_property ro.hardware.vulkan intel_hasvk
+				VULKAN=${VULKAN:-intel_hasvk}
 			else
-				set_property ro.hardware.vulkan intel
+				VULKAN=${VULKAN:-intel}
 			fi
-			;;
+			;&
 		*amdgpu)
-			set_property ro.hardware.vulkan radeon
-			;;
+			VULKAN=${VULKAN:-radeon}
+			;&
 		*virtio_gpu|*virtio-pci)
-			set_property ro.hardware.vulkan virtio
-			;;
+			VULKAN=${VULKAN:-virtio}
+			;&
 		*nouveau)
-			set_property ro.hardware.vulkan nouveau
-			;;
+			VULKAN=${VULKAN:-nouveau}
+			;&
 		*)
-			set_property ro.hardware.vulkan pastel
+			set_property ro.hardware.vulkan ${VULKAN:-pastel}
 			;;
 	esac
 }
