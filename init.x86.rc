@@ -25,15 +25,12 @@ on early-init && property:mesa.galliumhud.value=*
 on early-init && property:mesa.galliumhud.period=*
     export GALLIUM_HUD_PERIOD ${mesa.galliumhud.period}
 
-    write /sys/block/zram0/comp_algorithm zstd
-
 on init
     write /proc/sys/vm/page-cluster 0
 
 on fs
     mkdir /mnt/vendor/shared 0770 system system
     mount_all /fstab.${ro.hardware}
-    swapon_all /fstab.${ro.hardware}
 
 on post-fs
     exec u:r:init:s0 -- /system/bin/logwrapper /system/bin/sh /system/etc/init.sh
@@ -144,6 +141,13 @@ service iptsd_runner /vendor/bin/iptsd_runner
     disabled
     seclabel u:r:zygote:s0
 
+service zram_setup /vendor/etc/init.zram.sh
+    class late_start
+    user root
+    group root system wakelock graphics
+    disabled
+    oneshot
+
 on property:system_init.startsurfaceflinger=0
     # disable cursor blinking
     write /dev/tty0 "[?17;0;0c"
@@ -151,6 +155,7 @@ on property:system_init.startsurfaceflinger=0
     stop console
 
 on property:sys.boot_completed=1
+    start zram_setup
     write /proc/sys/kernel/ctrl-alt-del 0
     exec u:r:init:s0 -- /system/bin/logwrapper /system/bin/sh /system/etc/init.sh bootcomplete
 
