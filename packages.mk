@@ -170,3 +170,6 @@ endif
 ## DHCP client
 PRODUCT_PACKAGES += \
     x86_dhcpclient.recovery
+
+# A small script to inherit paths
+PRODUCT_PACKAGES += blisspath
