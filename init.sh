@@ -429,20 +429,18 @@ function init_hal_gralloc()
 function init_egl()
 {
 
-	if [ "$HWACCEL" != "0" ]; then
-		if [ "$ANGLE" == "1" ]; then
-			set_property ro.hardware.egl angle
-		else
-			set_property ro.hardware.egl mesa
-		fi
-	else
-		if [ "$ANGLE" == "1" ]; then
-			set_property ro.hardware.egl angle
-		else
-			set_property ro.hardware.egl swiftshader
-		fi
-		set_property ro.hardware.vulkan pastel
-		start vendor.hwcomposer-2-1
+	if [ "$HWACCEL" == "0" ]; then
+		export EGL=${EGL:-angle}
+	fi
+
+	set_property ro.hardware.egl ${EGL:-mesa}
+
+	if [ "$MESA_LLVMPIPE" -ge "1" ] || [ "$VULKAN" == "lvp" ]; then
+		export LIBGL_ALWAYS_SOFTWARE=true
+	fi
+
+	if [ "$MESA_ZINK" -ge "1" ]; then
+		export MESA_LOADER_DRIVER_OVERRIDE=zink
 	fi
 
 	# Set OpenGLES version
@@ -484,29 +482,33 @@ function init_egl()
 
 function init_hal_hwcomposer()
 {
-	# TODO
-	if [ "$HWACCEL" != "0" ]; then
-		if [ "$HWC" = "default" ]; then
-			if [ "$HWC_IS_DRMFB" = "1" ]; then
-				set_property debug.sf.hwc_service_name drmfb
-				start vendor.hwcomposer-2-1.drmfb
-			else
-				set_property debug.sf.hwc_service_name default
-				start vendor.hwcomposer-2-1
-			fi
-		else
+	if [ "$HWACCEL" == "0" ] || 
+	[[ "$(readlink /sys/class/graphics/fb0/device/driver)" == *radeon* ]]; then
+		export HWC_HIDL=${HWC_HIDL:-default-2.1}
+	fi
+
+	case "$HWC_HIDL" in
+		drmfb)
+			set_property debug.sf.hwc_service_name drmfb
+			start vendor.hwcomposer-2-1.drmfb
+			;;
+		default-2.1)
+			set_property debug.sf.hwc_service_name default
+			start vendor.hwcomposer-2-1
+			;;
+		default-2.4|*)
 			set_property debug.sf.hwc_service_name default
 			start vendor.hwcomposer-2-4
+			;;
+	esac
 
-			if [[ "$HWC" == "drm_celadon" || "$HWC" == "drm_minigbm_celadon" ]]; then
-				set_property vendor.hwcomposer.planes.enabling $MULTI_PLANE
-				set_property vendor.hwcomposer.planes.num $MULTI_PLANE_NUM
-				set_property vendor.hwcomposer.preferred.mode.limit $HWC_PREFER_MODE
-				set_property vendor.hwcomposer.connector.id $CONNECTOR_ID
-				set_property vendor.hwcomposer.mode.id $MODE_ID
-				set_property vendor.hwcomposer.connector.multi_refresh_rate $MULTI_REFRESH_RATE
-			fi
-		fi
+	if [[ "$HWC" == "drm_celadon" || "$HWC" == "drm_minigbm_celadon" ]]; then
+		set_property vendor.hwcomposer.planes.enabling $MULTI_PLANE
+		set_property vendor.hwcomposer.planes.num $MULTI_PLANE_NUM
+		set_property vendor.hwcomposer.preferred.mode.limit $HWC_PREFER_MODE
+		set_property vendor.hwcomposer.connector.id $CONNECTOR_ID
+		set_property vendor.hwcomposer.mode.id $MODE_ID
+		set_property vendor.hwcomposer.connector.multi_refresh_rate $MULTI_REFRESH_RATE
 	fi
 }
 
@@ -1016,6 +1018,7 @@ for c in `cat /proc/cmdline`; do
 			;;
 		nomodeset)
 			HWACCEL=0
+			LIBGL_ALWAYS_SOFTWARE=true
 			;;
 		*=*)
 			eval $c
