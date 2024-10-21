@@ -37,6 +37,9 @@ function init_misc()
 	# Allow force disable sdcardfs/esdfs
 	if [ "$SDCARDFS_DISABLE" -ge 1 ]; then
 		set_property external_storage.sdcardfs.enabled false
+		set_property persist.sys.fuse.passthrough.enable false
+	else
+		set_property persist.sys.fuse.passthrough.enable true
 	fi
 
 	# remove wl if it's not used
