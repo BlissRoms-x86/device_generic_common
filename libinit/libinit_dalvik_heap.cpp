@@ -18,6 +18,33 @@
 
 #define GB(b) (b * 1024ull * 1024 * 1024)
 
+static const dalvik_heap_info_t dalvik_heap_info_16384 = {
+    .heapstartsize = "32m",
+    .heapgrowthlimit = "448m",
+    .heapsize = "640m",
+    .heapminfree = "16m",
+    .heapmaxfree = "64m",
+    .heaptargetutilization = "0.4",
+};
+
+static const dalvik_heap_info_t dalvik_heap_info_12288 = {
+    .heapstartsize = "24m",
+    .heapgrowthlimit = "384m",
+    .heapsize = "512m",
+    .heapminfree = "8m",
+    .heapmaxfree = "56m",
+    .heaptargetutilization = "0.42",
+};
+
+static const dalvik_heap_info_t dalvik_heap_info_8192 = {
+    .heapstartsize = "24m",
+    .heapgrowthlimit = "256m",
+    .heapsize = "512m",
+    .heapminfree = "8m",
+    .heapmaxfree = "48m",
+    .heaptargetutilization = "0.46",
+};
+
 static const dalvik_heap_info_t dalvik_heap_info_6144 = {
     .heapstartsize = "16m",
     .heapgrowthlimit = "256m",
@@ -60,14 +87,36 @@ void set_dalvik_heap() {
 
     sysinfo(&sys);
 
-    if (sys.totalram > GB(5))
-        dhi = &dalvik_heap_info_6144;
-    else if (sys.totalram > GB(3))
-        dhi = &dalvik_heap_info_4096;
-    else if (sys.totalram > GB(1))
-        dhi = &dalvik_heap_info_2048;
-    else
-        dhi = &dalvik_heap_info_1024;
+    int heap_select = (sys.totalram > GB(15)) ? 8 :
+                      (sys.totalram > GB(11)) ? 7 :
+                      (sys.totalram > GB(7)) ? 6 :
+                      (sys.totalram > GB(5)) ? 5 :
+                      (sys.totalram > GB(3)) ? 4 :
+                      (sys.totalram > GB(1.3)) ? 3 : 2;
+
+    switch (heap_select) {
+        case 8:
+            dhi = &dalvik_heap_info_16384;
+            break;
+        case 7:
+            dhi = &dalvik_heap_info_12288;
+            break;
+        case 6:
+            dhi = &dalvik_heap_info_8192;
+            break;
+        case 5:
+            dhi = &dalvik_heap_info_6144;
+            break;
+        case 4:
+            dhi = &dalvik_heap_info_4096;
+            break;
+        case 3:
+            dhi = &dalvik_heap_info_2048;
+            break;
+        default:
+            dhi = &dalvik_heap_info_1024;
+            break;
+    }
 
     property_override(HEAPSTARTSIZE_PROP, dhi->heapstartsize);
     property_override(HEAPGROWTHLIMIT_PROP, dhi->heapgrowthlimit);
