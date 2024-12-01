@@ -1100,6 +1100,9 @@ case "$1" in
 	bootcomplete)
 		do_bootcomplete
 		;;
+	kmsg)
+		dmesg -w > /data/kmsg.txt
+		;;
 	init|"")
 		do_init
 		;;
