@@ -371,22 +371,26 @@ function init_hal_gralloc()
 			HWC=${HWC:-drm_minigbm}
 			GRALLOC=${GRALLOC:-minigbm_arcvm}
 			#video=${video:-1280x768}
+			set_property ro.vendor.hwc.drm.present_fence_not_reliable true
 			;&
 		*nouveau)
-			GRALLOC=${GRALLOC:-gbm_hack}
-			HWC=${HWC:-drm_celadon}
+			GRALLOC=${GRALLOC:-minigbm_gbm_mesa}
+			HWC=${HWC:-drm_minigbm}
 			;&
 		*i915)
 			if [ "$(cat /sys/kernel/debug/dri/0/i915_capabilities | grep -e 'gen' -e 'graphics version' | awk '{print $NF}')" -gt 9 ]; then
 				HWC=${HWC:-drm_minigbm_celadon}
 				GRALLOC=${GRALLOC:-minigbm}
+			else
+				HWC=${HWC:-drm_celadon}
+				GRALLOC=${GRALLOC:-gbm}
 			fi
 			;&
-		*amdgpu)
-			HWC=${HWC:-drm_minigbm_celadon}
+		*amdgpu|*vmwgfx*)
 			GRALLOC=${GRALLOC:-minigbm}
+			HWC=${HWC:-drm_minigbm}
 			;&
-		*radeon|*vmwgfx*)
+		*radeon)
 			if [ "$HWACCEL" != "0" ]; then
 				${HWC:+set_property ro.hardware.hwcomposer $HWC}
 				set_property ro.hardware.gralloc ${GRALLOC:-gbm}
@@ -429,7 +433,7 @@ function init_hal_gralloc()
 function init_egl()
 {
 
-	if [ "$HWACCEL" == "0" ]; then
+	if [ "$HWACCEL" == "0" ] && [ "$MESA_LLVMPIPE" != "1" ]; then
 		export EGL=${EGL:-angle}
 	fi
 
@@ -437,6 +441,7 @@ function init_egl()
 
 	if [ "$MESA_LLVMPIPE" -ge "1" ] || [ "$VULKAN" == "lvp" ]; then
 		set_property mesa.libgl.always.software true
+		modprobe vgem
 	fi
 
 	if [ "$MESA_ZINK" -ge "1" ]; then
@@ -445,6 +450,10 @@ function init_egl()
 
 	# Set OpenGLES version
 	case "$FORCE_GLES" in
+		*2.0*)
+    	    set_property ro.opengles.version 131072
+            set_property mesa.gles.version.override 2.0
+		;;
         *3.0*)
     	    set_property ro.opengles.version 196608
             set_property mesa.gles.version.override 3.0
@@ -583,27 +592,31 @@ function init_hal_media()
 
 function init_hal_vulkan()
 {
-	case "$(readlink /sys/class/graphics/fb0/device/driver)" in
-		*i915)
-			if [ "$(cat /sys/kernel/debug/dri/0/i915_capabilities | grep -e 'gen' -e 'graphics version' | awk '{print $NF}')" -lt 9 ]; then
-				VULKAN=${VULKAN:-intel_hasvk}
-			else
-				VULKAN=${VULKAN:-intel}
-			fi
-			;&
-		*amdgpu)
-			VULKAN=${VULKAN:-radeon}
-			;&
-		*virtio_gpu|*virtio-pci)
-			VULKAN=${VULKAN:-virtio}
-			;&
-		*nouveau)
-			VULKAN=${VULKAN:-nouveau}
-			;&
-		*)
-			set_property ro.hardware.vulkan ${VULKAN:-pastel}
-			;;
-	esac
+	if [ "$HWACCEL" != "0" ]; then
+		case "$(readlink /sys/class/graphics/fb0/device/driver)" in
+			*i915)
+				if [ "$(cat /sys/kernel/debug/dri/0/i915_capabilities | grep -e 'gen' -e 'graphics version' | awk '{print $NF}')" -lt 9 ]; then
+					VULKAN=${VULKAN:-intel_hasvk}
+				else
+					VULKAN=${VULKAN:-intel}
+				fi
+				;&
+			*amdgpu)
+				VULKAN=${VULKAN:-radeon}
+				;&
+			*virtio_gpu|*virtio-pci)
+				VULKAN=${VULKAN:-virtio}
+				;&
+			*nouveau)
+				VULKAN=${VULKAN:-nouveau}
+				;&
+			*)
+				set_property ro.hardware.vulkan ${VULKAN:-pastel}
+				;;
+		esac
+	else
+		set_property ro.hardware.vulkan ${VULKAN:-pastel}
+	fi
 }
 
 function init_hal_lights()
@@ -1015,7 +1028,7 @@ for c in `cat /proc/cmdline`; do
 			;;
 		nomodeset)
 			HWACCEL=0
-			LIBGL_ALWAYS_SOFTWARE=true
+			set_property mesa.libgl.always.software true
 			;;
 		*=*)
 			eval $c
