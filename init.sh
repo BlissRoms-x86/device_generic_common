@@ -821,21 +821,6 @@ function init_cpu_governor()
 	}
 }
 
-function set_lowmem()
-{
-	# 512 MB size in kB : https://source.android.com/devices/tech/perf/low-ram
-	SIZE_512MB=2048000
-
-	mem_size=`cat /proc/meminfo | grep MemTotal | tr -s ' ' | cut -d ' ' -f 2`
-
-	if [ "$mem_size" -le "$SIZE_512MB" ]
-	then
-		setprop ro.config.low_ram true
-	else
-		setprop ro.config.low_ram false
-	fi
-}
-
 function set_custom_ota()
 {
 	for c in `cat /proc/cmdline`; do
@@ -917,7 +902,6 @@ function set_custom_timezone()
 function do_init()
 {
 	init_misc
-	set_lowmem
 	set_custom_timezone
 	init_hal_audio
 	set_custom_ota
