@@ -634,15 +634,28 @@ function init_hal_power()
 
 function init_hal_thermal()
 {
-	#thermal-daemon test, pulled from Project Celadon
-	case "$(cat /sys/class/dmi/id/chassis_vendor | head -1)" in 
-	QEMU)
-		setprop vendor.thermal.enable 0
-		;;
-	*)
-		setprop vendor.thermal.enable 1
-		;;
-	esac
+    # Check if thermald needs to be disabled
+    # 1. VMs (QEMU, VMware, Oracle VirtualBox)
+    # 2. AMD CPUs
+    case "$VENDOR" in
+        *QEMU*|*VMware*)
+            export THERMALD_DISABLE=${THERMALD_DISABLE:-1}
+            ;;
+        *)
+            ;;
+    esac
+
+    if [[ "$BOARD" == *VirtualBox* ]]; then
+        export THERMALD_DISABLE=${THERMALD_DISABLE:-1}
+    fi
+
+    if grep -q "AuthenticAMD" /proc/cpuinfo; then
+        export THERMALD_DISABLE=${THERMALD_DISABLE:-1}
+    fi
+
+    if [ "$THERMALD_DISABLE" -lt 1 ]; then
+        start thermal-daemon
+    fi
 }
 
 function init_hal_sensors()
@@ -918,7 +931,6 @@ function do_init()
 	init_hal_vulkan
 	init_hal_lights
 	init_hal_power
-	init_hal_thermal
 	init_hal_sensors
 	init_hal_surface
 	init_tscal
@@ -1000,6 +1012,7 @@ function do_bootcomplete()
 		pm disable com.blissos.updater
 	fi
 
+	init_hal_thermal
 	post_bootcomplete
 }
 
