@@ -108,6 +108,9 @@ service wpa_supplicant /vendor/bin/hw/wpa_supplicant -dd \
 service logcat /system/bin/logcat -b all -v threadtime -f /data/log.txt
     class debug
 
+service kmsg_fetch /system/bin/sh /system/etc/init.sh kmsg
+    class debug
+
 service thermal-daemon /vendor/bin/thermal-daemon --adaptive
     class main
     user system
