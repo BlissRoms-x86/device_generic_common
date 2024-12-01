@@ -694,7 +694,7 @@ function init_hal_sensors()
                 set_property ro.iio.accel.x.opt_scale -1
                 set_property ro.iio.accel.z.opt_scale -1
                 ;;
-            *i7Stylus*)
+            *i7Stylus*|*SARY*TAB3*)
                 set_property ro.iio.accel.x.opt_scale -1
                 ;;
             *LenovoMIIX320*|*MIIX510*|*MIIX300-10IBY*|*ONDATablet*| \
