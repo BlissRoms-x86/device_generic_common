@@ -50,7 +50,7 @@ function configure_zram_parameters() {
         let zRamSizeMB="( $RamSizeGB * 1024 ) / 2"
     fi
 
-    if [ $RamSizeGB -ge 8 ]; then
+    if [ $RamSizeGB -gt 8 ]; then
         let zRamSizeMB="( $RamSizeGB * 1024 ) / 4"
     fi
 
