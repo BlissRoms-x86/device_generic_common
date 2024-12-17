@@ -120,9 +120,6 @@ PRODUCT_PACKAGES_DEBUG := \
     mcaptest \
     rctest \
 
-PRODUCT_HOST_PACKAGES := \
-    qemu-android \
-
 #
 # Packages for AOSP-available stuff we use from the framework
 #
