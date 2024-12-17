@@ -144,7 +144,7 @@ service iptsd_runner /vendor/bin/iptsd_runner
     disabled
     seclabel u:r:zygote:s0
 
-service zram_setup /vendor/etc/init.zram.sh
+service zram_setup /vendor/bin/sh /vendor/etc/init.zram.sh
     class late_start
     user root
     group root system wakelock graphics
