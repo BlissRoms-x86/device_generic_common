@@ -114,7 +114,7 @@ BOARD_MESA3D_VIDEO_CODECS := h264dec h265dec vc1dec av1dec
 BOARD_MESA3D_MESON_ARGS := -Dallow-kcmp=enabled
 BUILD_EMULATOR_OPENGL := true
 
-BOARD_KERNEL_CMDLINE := root=/dev/ram0$(if $(filter x86_64,$(TARGET_ARCH) $(TARGET_KERNEL_ARCH)),, vmalloc=192M)
+BOARD_KERNEL_CMDLINE := $(if $(filter x86_64,$(TARGET_ARCH) $(TARGET_KERNEL_ARCH)),, vmalloc=192M)
 TARGET_KERNEL_DIFFCONFIG := device/generic/common/selinux_diffconfig
 
 # Atom specific
