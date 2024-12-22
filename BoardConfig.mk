@@ -202,6 +202,7 @@ TARGET_SYSTEM_PROP += $(LOCAL_COMMON_TREE)/properties/system.prop
 
 # Recovery
 TARGET_RECOVERY_FSTAB := $(LOCAL_COMMON_TREE)/recovery.fstab
+TARGET_RECOVERY_UI_LIB := librecovery_ui_x86
 
 # Init
 TARGET_INIT_VENDOR_LIB ?= //$(LOCAL_COMMON_TREE):init_x86
