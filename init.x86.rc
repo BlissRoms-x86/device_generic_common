@@ -28,6 +28,9 @@ on early-init && property:mesa.galliumhud.period=*
 on init
     write /proc/sys/vm/page-cluster 0
 
+on early-fs
+    exec u:r:init:s0 -- /system/bin/logwrapper /system/bin/sh /system/etc/init.fstab.sh
+
 on fs
     mkdir /mnt/vendor/shared 0770 system system
     mount_all /fstab.${ro.hardware}

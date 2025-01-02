@@ -15,6 +15,9 @@ on early-boot
     ifup ${vendor.recovery.ethernet.dhcp.iface:-eth0}
     start dhcpclient
 
+on early-fs
+    exec u:r:init:s0 -- /system/bin/sh /system/etc/init.fstab.sh
+
 on post-fs
     exec u:r:init:s0 -- /system/bin/sh /system/etc/init.recovery.sh
 
