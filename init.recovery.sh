@@ -23,46 +23,24 @@ function init_misc()
     fi
 }
 
-function map_device_link()
+function inir_recovery_device_link()
 {
-	ln -s /dev/block/"${1#'#>'}" /dev/block/by-name/"$2"
-}
+  # Insert /data to recovery.fstab
+  if grep /dev/block/by-name/userdata "$(ls /fstab.*)" >> /etc/recovery.fstab; then
+    set_property sys.recovery.data_is_part true
+  fi
 
-function init_loop_links()
-{
-    # Setup partitions loop
-	mkdir -p /dev/block/by-name
+  # Insert /system into recovery.fstab
+  if [ "$(getprop ro.boot.slot_suffix)" ]; then
+    echo "/dev/block/by-name/system     /system   ext4    defaults        slotselect,first_stage_mount" >> /etc/recovery.fstab
+  else
+    echo "/dev/block/by-name/system     /system   ext4    defaults        defaults" >> /etc/recovery.fstab
+  fi
 
-	while read -r line; do
-		case "$line" in
-		'#>'*) map_device_link $line ;;
-		*) ;;
-		esac
-	done <"$(ls /fstab.*)"
-
-	ln -s /dev/block/by-name/kernel_a /dev/block/by-name/boot_a
-	ln -s /dev/block/by-name/kernel_b /dev/block/by-name/boot_b
-
-	ln -s /dev/block/by-name/recovery_a /dev/block/by-name/ramdisk-recovery_a
-	ln -s /dev/block/by-name/recovery_b /dev/block/by-name/ramdisk-recovery_b
-
-    # Insert /data to recovery.fstab
-    if grep /dev/block/by-name/userdata "$(ls /fstab.*)" >> /etc/recovery.fstab; then
-        set_property sys.recovery.data_is_part true
-    fi
-
-    # Insert /system into recovery.fstab
-    ab_slot=$(getprop ro.boot.slot_suffix)
-    if [ "$ab_slot" ]; then
-        echo "/dev/block/by-name/system     /system   ext4    defaults        slotselect,first_stage_mount" >> /etc/recovery.fstab
-    else
-        echo "/dev/block/by-name/system     /system   ext4    defaults        defaults" >> /etc/recovery.fstab
-    fi
-
-    # Create /dev/block/bootdevice/by-name
-    # because some scripts are dumb
-    mkdir -p /dev/block/bootdevice
-    ln -s /dev/block/by-name /dev/block/bootdevice/by-name
+  # Create /dev/block/bootdevice/by-name
+  # because some scripts are dumb
+  mkdir -p /dev/block/bootdevice
+  ln -s /dev/block/by-name /dev/block/bootdevice/by-name
 }
 
 function do_netconsole()
@@ -73,7 +51,7 @@ function do_netconsole()
 function do_init()
 {
     init_misc
-	init_loop_links
+	inir_recovery_device_link
 }
 
 # import cmdline variables
