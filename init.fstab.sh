@@ -5,7 +5,8 @@
 #
 
 function map_device_link() {
-  ln -s /dev/block/"${1#'#>'}" /dev/block/by-name/"$2"
+  # shellcheck disable=2012,2046
+  mknod /dev/block/by-name/"${1#'#>'}" b "$2" "$3"
 }
 
 function init_loop_links() {
