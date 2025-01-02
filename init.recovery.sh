@@ -47,7 +47,9 @@ function init_loop_links()
 	ln -s /dev/block/by-name/recovery_b /dev/block/by-name/ramdisk-recovery_b
 
     # Insert /data to recovery.fstab
-    grep /dev/block/by-name/userdata "$(ls /fstab.*)" >> /etc/recovery.fstab
+    if grep /dev/block/by-name/userdata "$(ls /fstab.*)" >> /etc/recovery.fstab; then
+        set_property sys.recovery.data_is_part true
+    fi
 
     # Insert /system into recovery.fstab
     ab_slot=$(getprop ro.boot.slot_suffix)
