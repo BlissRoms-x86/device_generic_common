@@ -26,7 +26,7 @@ function init_misc()
 function inir_recovery_device_link()
 {
   # Insert /data to recovery.fstab
-  if grep /dev/block/by-name/userdata "$(ls /fstab.*)" >> /etc/recovery.fstab; then
+  if grep -E '^\s*[^#].+ /data ' "$(ls /fstab.*)" >> /etc/recovery.fstab; then
     set_property sys.recovery.data_is_part true
   fi
 
