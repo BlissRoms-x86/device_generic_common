@@ -24,6 +24,10 @@ function init_loop_links() {
 
   ln -s /dev/block/by-name/recovery_a /dev/block/by-name/ramdisk-recovery_a
   ln -s /dev/block/by-name/recovery_b /dev/block/by-name/ramdisk-recovery_b
+
+  # Handle for misc symlink specifically
+  mv /dev/block/by-name/misc /dev/block/by-name/misc-device
+  ln -s misc-device /dev/block/by-name/misc
 }
 
 init_loop_links
