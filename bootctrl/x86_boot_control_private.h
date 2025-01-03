@@ -4,7 +4,7 @@ namespace android {
 namespace bootable {
 class BootControlExt {
   public:
-    bool SetGrubBootSlot(const char* new_suffix);
+    bool SetBootSlot(const char* new_suffix);
 };
 }
 }

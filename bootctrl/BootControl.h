@@ -20,7 +20,7 @@
 #include <hidl/MQDescriptor.h>
 #include <hidl/Status.h>
 #include <libboot_control/libboot_control.h>
-#include "grub_boot_control_private.h"
+#include "x86_boot_control_private.h"
 
 namespace android {
 namespace hardware {

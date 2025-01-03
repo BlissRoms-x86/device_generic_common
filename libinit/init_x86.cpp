@@ -74,9 +74,6 @@ static void set_properties_from_dmi_id() {
                 continue;
             value.pop_back();
             set_ro_build_prop(ro_build_prop, value, true);
-            if (ro_build_prop == "name") {
-                set_ro_build_prop("device", value, true);
-            }
         }
         return;
     }
@@ -87,9 +84,6 @@ static void set_properties_from_dmi_id() {
             continue;
         value.pop_back();
         set_ro_build_prop(ro_build_prop, value, true);
-        if (ro_build_prop == "name") {
-            set_ro_build_prop("device", value, true);
-        }
     }
 }
 

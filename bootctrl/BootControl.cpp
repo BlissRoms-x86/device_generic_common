@@ -22,7 +22,7 @@
 #include <bootloader_message/bootloader_message.h>
 
 #include "BootControl.h"
-#include "grub_boot_control_private.h"
+#include "x86_boot_control_private.h"
 #include "boot_control_definition.h"
 
 namespace android {
@@ -64,7 +64,7 @@ Return<void> BootControl::setActiveBootSlot(uint32_t slot, setActiveBootSlot_cb 
     struct CommandResult cr;
     const char* new_suffix = impl_.GetSuffix(slot);
 
-    if (impl_.SetActiveBootSlot(slot) && implext_.SetGrubBootSlot(new_suffix)) {
+    if (impl_.SetActiveBootSlot(slot) && implext_.SetBootSlot(new_suffix)) {
         cr.success = true;
         cr.errMsg = "Success";
     } else {

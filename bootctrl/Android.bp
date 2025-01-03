@@ -24,7 +24,7 @@ cc_library_shared {
     relative_install_path: "hw",
     vendor: true,
     recovery_available: true,
-    srcs: ["BootControl.cpp", "grub_boot_control.cpp"],
+    srcs: ["BootControl.cpp", "x86_boot_control.cpp"],
     cppflags: ["-Wno-unused-variable"],
     cflags: ["-Wno-unused-variable"],
     header_libs: ["generated_kernel_headers"],
