@@ -6,4 +6,5 @@
 /(vendor|system/vendor)/lib(64)?/libgallium_dri\.so							u:object_r:same_process_hal_file:s0
 
 # Files in rootfs
-/grub(/.*)?       u:object_r:grub_file:s0
+/boot(/.*)?       u:object_r:bootdir_file:s0
+/boot/efi(/.*)?       u:object_r:esp_file:s0

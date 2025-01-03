@@ -5,7 +5,7 @@
 #include <android-base/properties.h>
 #include <android-base/logging.h>
 
-#include "grub_boot_control_private.h"
+#include "x86_boot_control_private.h"
 
 namespace android {
 namespace bootable {
@@ -21,9 +21,14 @@ static void findAndReplace(std::string& content, const std::string& findStr, con
     }
 }
 
-bool BootControlExt::SetGrubBootSlot(const char* new_suffix) {
-    std::string filename = "/grub/android.cfg";
-    std::string texts[] = { "kernel", "initrd", "androidboot.slot_suffix=" };
+bool BootControlExt::SetBootSlot(const char* new_suffix) {
+    std::string filename = android::base::GetProperty("ro.boot.bootctrl_bootcfg", "");
+    std::string texts[] = { "kernel", "initrd", "androidboot.slot_suffix=", "SLOT=" };
+
+    // If the property is not set, use default filename
+    if (filename.empty()) {
+        filename = "/boot/grub/android.cfg";
+    }
 
     std::string old_suffix = android::base::GetProperty("ro.boot.slot_suffix", "");
     if (old_suffix.empty()) {

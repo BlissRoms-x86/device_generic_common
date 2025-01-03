@@ -20,7 +20,7 @@ AB_OTA_PARTITIONS += \
 	ramdisk-recovery
 
 # Rootfs
-BOARD_ROOT_EXTRA_FOLDERS := grub
+BOARD_ROOT_EXTRA_FOLDERS := boot
 
 # Some framework code requires this to enable BT
 BOARD_HAVE_BLUETOOTH := true
