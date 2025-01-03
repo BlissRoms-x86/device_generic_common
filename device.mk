@@ -65,6 +65,7 @@ PRODUCT_PROPERTY_OVERRIDES := \
 PRODUCT_COPY_FILES := \
     $(if $(wildcard $(PRODUCT_DIR)init.rc),$(PRODUCT_DIR)init.rc:root/init.rc) \
     $(if $(wildcard $(PRODUCT_DIR)init.sh),$(PRODUCT_DIR),$(LOCAL_PATH)/)init.sh:system/etc/init.sh \
+    $(if $(wildcard $(PRODUCT_DIR)init.fstab.sh),$(PRODUCT_DIR),$(LOCAL_PATH)/)init.sh:system/etc/init.fstab.sh \
     $(if $(wildcard $(PRODUCT_DIR)init.zram.sh),$(PRODUCT_DIR),$(LOCAL_PATH)/)init.zram.sh:$(TARGET_COPY_OUT_VENDOR)/etc/init.zram.sh \
     $(if $(wildcard $(PRODUCT_DIR)modules.blocklist),$(PRODUCT_DIR),$(LOCAL_PATH)/)modules.blocklist:system/etc/modules.blocklist \
     $(if $(wildcard $(PRODUCT_DIR)modules.options),$(PRODUCT_DIR),$(LOCAL_PATH)/)modules.options:system/etc/modules.options \
@@ -153,6 +154,7 @@ endif
 PRODUCT_COPY_FILES += \
     $(if $(wildcard $(PRODUCT_DIR)init.recovery.$(TARGET_PRODUCT).rc),$(PRODUCT_DIR)init.recovery.$(TARGET_PRODUCT).rc,$(LOCAL_PATH)/init.recovery.x86.rc):recovery/root/init.recovery.$(TARGET_PRODUCT).rc \
     $(if $(wildcard $(PRODUCT_DIR)init.recovery.sh),$(PRODUCT_DIR),$(LOCAL_PATH)/)init.recovery.sh:recovery/root/system/etc/init.recovery.sh \
+    $(if $(wildcard $(PRODUCT_DIR)init.fstab.sh),$(PRODUCT_DIR),$(LOCAL_PATH)/)init.fstab.sh:recovery/root/system/etc/init.fstab.sh \
 
 PRODUCT_TAGS += dalvik.gc.type-precise
 
