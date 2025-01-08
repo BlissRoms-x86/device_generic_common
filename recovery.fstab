@@ -12,3 +12,6 @@
 /devices/*/*/vd*		auto	auto	defaults,uid=1000,gid=1000		voldmanaged=usb:auto,noemulatedsd
 /devices/*/*/nvme*		auto	auto	defaults,uid=1000,gid=1000		voldmanaged=usb:auto,noemulatedsd
 /devices/*/*/xvd*		auto	auto	defaults,uid=1000,gid=1000		voldmanaged=usb:auto,noemulatedsd
+
+share /mnt/vendor/shared virtiofs nosuid,nodev,noatime nofail
+share /mnt/vendor/shared 9p trans=virtio,version=9p2000.L,nosuid,nodev,noatime nofail
