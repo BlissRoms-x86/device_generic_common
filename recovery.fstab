@@ -12,4 +12,3 @@
 /devices/*/*/vd*		auto	auto	defaults,uid=1000,gid=1000		voldmanaged=usb:auto,noemulatedsd
 /devices/*/*/nvme*		auto	auto	defaults,uid=1000,gid=1000		voldmanaged=usb:auto,noemulatedsd
 /devices/*/*/xvd*		auto	auto	defaults,uid=1000,gid=1000		voldmanaged=usb:auto,noemulatedsd
-/dev/block/zram0        none    swap    defaults	        zramsize=52%,max_comp_streams=4,swapprio=10,notrim
