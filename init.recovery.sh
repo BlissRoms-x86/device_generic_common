@@ -21,6 +21,8 @@ function init_misc()
     if [ "$USE_NTFS3" -ge "1" ] || [ "$VOLD_USE_NTFS3" -ge 1 ]; then
         set_property ro.vold.use_ntfs3 true
     fi
+
+    set_property service.adb.tcp.port ${DEBUG_NET_PORT:-5555}
 }
 
 function inir_recovery_device_link()
