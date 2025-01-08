@@ -1,9 +1,6 @@
 on early-init
     setprop ro.minui.pixel_format ${ro.boot.pixel_format}
 
-on init
-    setprop sys.usb.configfs 1
-
 service dhcpclient /system/bin/dhcpclient -i ${vendor.recovery.ethernet.dhcp.iface:-eth0}
     user root
     group root
