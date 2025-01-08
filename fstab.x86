@@ -11,3 +11,4 @@ none			/cache		tmpfs	nosuid,nodev,noatime	defaults
 /devices/*/PNP0FFF:00/mmc_*	auto	auto	defaults		voldmanaged=sdcard1:auto,encryptable=userdata
 
 share /mnt/vendor/shared virtiofs nosuid,nodev,noatime nofail
+share /mnt/vendor/shared 9p trans=virtio,version=9p2000.L,nosuid,nodev,noatime nofail

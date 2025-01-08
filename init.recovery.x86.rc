@@ -1,5 +1,6 @@
 on early-init
     setprop ro.minui.pixel_format ${ro.boot.pixel_format}
+    mkdir /mnt/vendor/shared 0770 root root
 
 service dhcpclient /system/bin/dhcpclient -i ${vendor.recovery.ethernet.dhcp.iface:-eth0}
     user root
