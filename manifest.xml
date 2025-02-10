@@ -44,6 +44,7 @@
             <name>ICameraProvider</name>
             <instance>external/0</instance>
             <instance>legacy/0</instance>
+            <instance>internal/0</instance>
         </interface>
     </hal>
     <hal format="hidl">

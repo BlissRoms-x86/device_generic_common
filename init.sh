@@ -319,18 +319,9 @@ function init_hal_bluetooth()
 
 function init_hal_camera()
 {
-	case "$UEVENT" in
-		*e-tabPro*)
-			set_prop_if_empty hal.camera.0 0,270
-			set_prop_if_empty hal.camera.2 1,90
-			;;
-		*LenovoideapadD330*)
-			set_prop_if_empty hal.camera.0 0,90
-			set_prop_if_empty hal.camera.2 1,90
-			;;
-		*)
-			;;
-	esac
+	if [ "$EMULATED_CAMERA" == "1" ]; then
+		start vendor.camera-provider-2-5-google
+	fi
 }
 
 function init_hal_gps()
