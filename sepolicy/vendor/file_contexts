@@ -1,0 +1,2 @@
+/(vendor|system/vendor)/bin/hw/android\.hardware\.camera\.provider@2\.4-service-google u:object_r:hal_camera_default_exec:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.camera\.provider@2\.4-service u:object_r:hal_camera_default_exec:s0
