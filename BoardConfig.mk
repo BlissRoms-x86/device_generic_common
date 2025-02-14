@@ -173,7 +173,7 @@ DEVICE_MANIFEST_FILE := device/generic/common/manifest.xml
 #                       vendor/intel/proprietary/houdini/sepolicy \
 #                       vendor/google/proprietary/widevine-prebuilt/sepolicy
 #
-BOARD_PLAT_PRIVATE_SEPOLICY_DIR += device/generic/common/sepolicy/plat_private
+SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += device/generic/common/sepolicy/plat_private
 BOARD_VENDOR_SEPOLICY_DIRS += device/generic/common/sepolicy/vendor
 
 BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
