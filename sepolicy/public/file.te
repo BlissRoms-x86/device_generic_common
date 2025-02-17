@@ -1,1 +1,2 @@
 type virtiofs, sdcard_type, fs_type, mlstrustedobject;
+type ntfs3, sdcard_type, fs_type, mlstrustedobject;
