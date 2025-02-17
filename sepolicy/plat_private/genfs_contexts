@@ -1,1 +1,2 @@
 genfscon virtiofs / u:object_r:virtiofs:s0
+genfscon ntfs3 / u:object_r:ntfs3:s0
