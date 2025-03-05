@@ -1062,6 +1062,11 @@ for c in `cat /proc/cmdline`; do
 						# options: 0, 1
 						set_property persist.mouse.presentation "$FORCE_MOUSE_PRESENTATION"
 						;;
+					FORCE_MOUSE_DISPLAY_ID=*)
+						# Force mouse on Display ID
+						# options: 0, 1, 2, etc.
+						set_property persist.override.cursor_display_id "$FORCE_MOUSE_DISPLAY_ID"
+						;;
 				esac
 				[ "$SETUPWIZARD" = "0" ] && set_property ro.setupwizard.mode DISABLED
 			fi
