@@ -1067,6 +1067,11 @@ for c in `cat /proc/cmdline`; do
 						# options: 0, 1, 2, etc.
 						set_property persist.override.cursor_display_id "$FORCE_MOUSE_DISPLAY_ID"
 						;;
+					FORCE_WIN_AS_HOME=*)
+						# Force window as home
+						# options: 0, 1
+						set_property ro.boot.force.win_as_home "$FORCE_WIN_AS_HOME"
+						;;
 				esac
 				[ "$SETUPWIZARD" = "0" ] && set_property ro.setupwizard.mode DISABLED
 			fi
