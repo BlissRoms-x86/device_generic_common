@@ -1072,6 +1072,11 @@ for c in `cat /proc/cmdline`; do
 						# options: 0, 1
 						set_property ro.boot.force.win_as_home "$FORCE_WIN_AS_HOME"
 						;;
+					FORCE_RIGHT_MOUSE_AS_BACK=*)
+						# Force right mouse as back
+						# options: true, false
+						set_property ro.boot.force.right_mouse_as_back "$FORCE_RIGHT_MOUSE_AS_BACK"
+						;;
 				esac
 				[ "$SETUPWIZARD" = "0" ] && set_property ro.setupwizard.mode DISABLED
 			fi
