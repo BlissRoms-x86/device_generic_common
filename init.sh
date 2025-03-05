@@ -1057,6 +1057,11 @@ for c in `cat /proc/cmdline`; do
 						# options: true, false
 						set_property persist.bliss.disable_recents "$FORCE_DISABLE_RECENTS"
 						;;
+					FORCE_MOUSE_PRESENTATION=*)
+						# Force mouse presentation
+						# options: 0, 1
+						set_property persist.mouse.presentation "$FORCE_MOUSE_PRESENTATION"
+						;;
 				esac
 				[ "$SETUPWIZARD" = "0" ] && set_property ro.setupwizard.mode DISABLED
 			fi
