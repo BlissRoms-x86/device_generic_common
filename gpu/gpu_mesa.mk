@@ -22,6 +22,7 @@ PRODUCT_PACKAGES := \
     vulkan.virtio \
     vulkan.nouveau \
     vulkan.lvp \
+    vulkan.nouveau \
     libEGL_angle \
     libGLESv1_CM_angle \
     libGLESv2_angle \
@@ -30,8 +31,7 @@ PRODUCT_PACKAGES := \
     libGLESv2_swiftshader \
     vulkan.pastel \
     vulkan.pastel_legacy \
-
-PRODUCT_PACKAGES += \
+    dri_gbm \
     libEGL_mesa \
     libGLESv1_CM_mesa \
     libGLESv2_mesa \
@@ -40,25 +40,13 @@ PRODUCT_PACKAGES += \
     libgbm_mesa_wrapper \
     libgallium_drv_video \
     vainfo \
-    amdgpu.ids
-
-ifneq ($(filter x86%,$(TARGET_ARCH)),)
-PRODUCT_PACKAGES += \
+    amdgpu.ids \
     i965_drv_video \
     crocus_drv_video \
     iHD_drv_video
-endif
 
 PRODUCT_VENDOR_PROPERTIES += \
     debug.angle.feature_overrides_enabled=preferLinearFilterForYUV
-
-# ANGLE provides an OpenGL implementation built on top of Vulkan.
-#PRODUCT_PACKAGES += \
-
-
-# GL/Vk implementation for gfxstream
-#PRODUCT_PACKAGES += \
-
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.opengles.aep.xml:system/etc/permissions/android.hardware.opengles.aep.xml \
