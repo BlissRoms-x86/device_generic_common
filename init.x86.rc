@@ -121,6 +121,12 @@ service logcat /system/bin/logcat -b all -v threadtime -f /data/log.txt
 service kmsg_fetch /system/bin/sh /system/etc/init.sh kmsg
     class debug
 
+service vendor.boot-mode-selection /vendor/bin/boot-mode-selection.sh ${sys.shutdown.requested}
+    user root
+    group root
+    disabled
+    oneshot
+
 service thermal-daemon /vendor/bin/thermal-daemon --adaptive
     class main
     user system
@@ -177,3 +183,8 @@ on property:net.dns1=*
 
 on property:debug.logcat=1
     class_start debug
+
+on property:sys.shutdown.requested=*
+    start vendor.boot-mode-selection
+    wait_for_prop vendor.boot-mode-selection.complete true
+

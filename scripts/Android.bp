@@ -1,0 +1,16 @@
+sh_binary {
+    name: "blisspath",
+    src: "blisspath",
+}
+
+sh_binary {
+    name: "boot-mode-selection.sh",
+    src: "boot-mode-selection.sh",
+    vendor: true,
+}
+
+sh_binary {
+    name: "recovery.bms.sh",
+    src: "boot-mode-selection.sh",
+    recovery: true,
+}
