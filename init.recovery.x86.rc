@@ -18,6 +18,11 @@ on early-fs
 
 on post-fs
     exec u:r:init:s0 -- /system/bin/sh /system/etc/init.recovery.sh
+    exec u:r:init:s0 -- /system/bin/sh /system/bin/recovery.bms.sh
 
 on property:net.dns1=*
     exec u:r:init:s0 -- /system/bin/sh /system/etc/init.recovery.sh netconsole
+
+on property:sys.shutdown.requested=*
+    exec u:r:init:s0 -- /system/bin/sh /system/bin/recovery.bms.sh ${sys.shutdown.requested}
+    wait_for_prop vendor.boot-mode-selection.complete true

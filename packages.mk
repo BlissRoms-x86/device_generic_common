@@ -168,5 +168,5 @@ endif
 PRODUCT_PACKAGES += \
     x86_dhcpclient.recovery
 
-# A small script to inherit paths
-PRODUCT_PACKAGES += blisspath
+# A collection of scripts at scripts/
+PRODUCT_PACKAGES += blisspath boot-mode-selection.sh recovery.bms.sh
