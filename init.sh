@@ -761,9 +761,19 @@ function init_hal_sensors()
 
 function init_hal_surface()
 {
-	case "$UEVENT" in
+	case "$PRODUCT" in
 		*Surface*Pro*[4-9]*|*Surface*Book*|*Surface*Laptop*[1~4]*|*Surface*Laptop*Studio*)
-			start iptsd_runner
+			set_property vendor.iptsd.device $(iptsd-find-hidraw)
+			;;
+	esac
+
+	# Handle a seperate case for Surface Pro 5 as it's initially being called
+	# Surface Pro LTE 2017, which gives "Surface Pro" in product_name
+	sku=$(cat /sys/class/dmi/id/product_sku 2>/dev/null)
+	case "$sku" in
+		Surface_Pro_1796|Surface_Pro_1807)
+			# Execute command with hidraw device from iptsd-find-hidraw
+			set_property vendor.iptsd.device "$(iptsd-find-hidraw)"
 			;;
 	esac
 }
@@ -902,7 +912,6 @@ function do_init()
 	init_hal_lights
 	init_hal_power
 	init_hal_sensors
-	init_hal_surface
 	init_tscal
 	init_ril
 	init_prepare_ota
@@ -982,6 +991,7 @@ function do_bootcomplete()
 	fi
 
 	init_hal_thermal
+	init_hal_surface
 	post_bootcomplete
 }
 
