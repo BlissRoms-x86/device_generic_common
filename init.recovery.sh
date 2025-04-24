@@ -25,24 +25,24 @@ function init_misc()
     set_property service.adb.tcp.port ${DEBUG_NET_PORT:-5555}
 }
 
-function inir_recovery_device_link()
+function init_recovery_device_link()
 {
-  # Insert /data to recovery.fstab
-  if grep -E '^\s*[^#].+ /data ' "$(ls /fstab.*)" >> /etc/recovery.fstab; then
-    set_property sys.recovery.data_is_part true
-  fi
+	# Insert /data to recovery.fstab
+	if grep -E '^\s*[^#].+ /data ' "$(ls /fstab.*)" >> /etc/recovery.fstab; then
+		set_property sys.recovery.data_is_part true
+	fi
 
-  # Insert /system into recovery.fstab
-  if [ "$(getprop ro.boot.slot_suffix)" ]; then
-    echo "/dev/block/by-name/system     /system   ext4    defaults        slotselect,first_stage_mount" >> /etc/recovery.fstab
-  else
-    echo "/dev/block/by-name/system     /system   ext4    defaults        defaults" >> /etc/recovery.fstab
-  fi
+	# Insert /system into recovery.fstab
+	if [ "$(getprop ro.boot.slot_suffix)" ]; then
+		echo "/dev/block/by-name/system     /system   ext4    defaults        slotselect,first_stage_mount" >> /etc/recovery.fstab
+	else
+		echo "/dev/block/by-name/system     /system   ext4    defaults        defaults" >> /etc/recovery.fstab
+	fi
 
-  # Create /dev/block/bootdevice/by-name
-  # because some scripts are dumb
-  mkdir -p /dev/block/bootdevice
-  ln -s /dev/block/by-name /dev/block/bootdevice/by-name
+	# Create /dev/block/bootdevice/by-name
+	# because some scripts are dumb
+	mkdir -p /dev/block/bootdevice
+	ln -s /dev/block/by-name /dev/block/bootdevice/by-name
 }
 
 function do_netconsole()
@@ -53,7 +53,7 @@ function do_netconsole()
 function do_init()
 {
     init_misc
-	inir_recovery_device_link
+	init_recovery_device_link
 }
 
 # import cmdline variables
