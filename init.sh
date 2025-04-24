@@ -671,6 +671,11 @@ function init_hal_thermal()
 
 function init_hal_sensors()
 {
+	# Pause for amount of seconds before initializing sensors
+	if [ -n "$SENSORS_DELAY_INIT" ]; then
+		sleep "$SENSORS_DELAY_INIT"
+	fi
+
     if [ "$SENSORS_FORCE_KBDSENSOR" == "1" ]; then
         # Option to force kbd sensor
         hal_sensors=kbd
