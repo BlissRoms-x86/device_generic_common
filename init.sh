@@ -376,7 +376,7 @@ function init_hal_gralloc()
 			HWC=${HWC:-drm_minigbm}
 			;&
 		*i915)
-			if [ "$(cat /sys/kernel/debug/dri/0/i915_capabilities | grep -e 'gen' -e 'graphics version' | awk '{print $NF}')" -gt 9 ]; then
+			if [ "$(cat /sys/kernel/debug/dri/0/i915_capabilities | grep -e 'gen' -e 'graphics version' | awk '{print $NF}')" -ge 8 ]; then
 				HWC=${HWC:-drm_minigbm_celadon}
 				GRALLOC=${GRALLOC:-minigbm}
 			else
