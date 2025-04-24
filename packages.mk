@@ -149,7 +149,7 @@ PRODUCT_PACKAGES += tput dialog alsa-info.sh tree lspci dmidecode evtest
 
 # Surface specific
 ifeq ($(BOARD_IS_SURFACE_BUILD),true)
-PRODUCT_PACKAGES += iptsd_runner iptsd \
+PRODUCT_PACKAGES += set_iptsd_device iptsd \
                     iptsd-find-hidraw \
                     iptsd-calibrate \
                     iptsd-check-device \

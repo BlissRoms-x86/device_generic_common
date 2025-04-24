@@ -155,10 +155,17 @@ service ctrl-alt-del /system/bin/input keyevent --longpress POWER
     keycodes 97 100 111
     seclabel u:r:init:s0
 
-service iptsd_runner /vendor/bin/iptsd_runner
-    class main
+service iptsd /vendor/bin/iptsd ${vendor.iptsd.device}
+    user root
+    group root system wakelock uhid
     disabled
     seclabel u:r:zygote:s0
+
+service set_iptsd /vendor/bin/set_iptsd_device
+    user root
+    group root
+    disabled
+    oneshot
 
 service zram_setup /vendor/bin/sh /vendor/etc/init.zram.sh
     class late_start
@@ -188,3 +195,9 @@ on property:sys.shutdown.requested=*
     start vendor.boot-mode-selection
     wait_for_prop vendor.boot-mode-selection.complete true
 
+on property:vendor.iptsd.device=*
+    restart iptsd
+
+on property:suspend.device_is_awake=1
+    start set_iptsd
+    setprop suspend.device_is_awake 0

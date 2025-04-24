@@ -1,0 +1,7 @@
+#!/vendor/bin/sh -e
+
+sleep 1
+
+if [ "$(getprop vendor.iptsd.device)" != "$(iptsd-find-hidraw)" ]; then
+    setprop vendor.iptsd.device $(iptsd-find-hidraw)
+fi

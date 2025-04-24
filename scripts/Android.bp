@@ -14,3 +14,9 @@ sh_binary {
     src: "boot-mode-selection.sh",
     recovery: true,
 }
+
+sh_binary {
+    name: "set_iptsd_device",
+    src: "set_iptsd_device",
+    vendor: true,
+}
