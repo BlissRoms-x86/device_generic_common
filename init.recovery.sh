@@ -15,6 +15,20 @@ function set_prop_if_empty()
 	[ -z "$(getprop $1)" ] && set_property "$1" "$2"
 }
 
+function init_graphics()
+{
+	case "$(readlink /sys/class/graphics/fb0/device/driver)" in
+		*i915)
+			set_property ro.minui.pixel_format RGBX_8888
+			;;
+		*vmwgfx)
+			set_property ro.minui.pixel_format BGRX_8888
+			;;
+		*)
+			;;
+	esac
+}
+
 function init_misc()
 {
 	# Tell vold to use ntfs3 driver instead of ntfs-3g
@@ -52,6 +66,7 @@ function do_netconsole()
 
 function do_init()
 {
+	init_graphics
     init_misc
 	init_recovery_device_link
 }
