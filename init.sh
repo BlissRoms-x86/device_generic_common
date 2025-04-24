@@ -983,7 +983,7 @@ function do_bootcomplete()
 	post_bootcomplete
 }
 
-PATH=/sbin:/system/bin:/system/xbin
+PATH=/sbin:/system/bin:/system/xbin:/vendor/bin:/product/bin:/system_ext/bin:/system/vendor/bin:/system/product/bin:/system/system_ext/bin
 
 DMIPATH=/sys/class/dmi/id
 BOARD=$(cat $DMIPATH/board_name)
