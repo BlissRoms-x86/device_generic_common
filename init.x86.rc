@@ -151,6 +151,8 @@ service ctrl-alt-del /system/bin/input keyevent --longpress POWER
 service iptsd /vendor/bin/iptsd ${vendor.iptsd.device}
     user root
     group root system wakelock uhid
+    ioprio rt 0
+    priority -20
     disabled
     seclabel u:r:zygote:s0
 
