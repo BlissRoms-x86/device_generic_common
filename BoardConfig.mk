@@ -157,6 +157,7 @@ KERNEL_DIR ?= kernel/x86/common
 # Surface specific
 ifeq ($(BOARD_IS_SURFACE_BUILD),true)
 KERNEL_DIR := kernel/x86/surface
+BOARD_KERNEL_CMDLINE += nvme_core.default_ps_max_latency_us=0 pcie_aspm=off
 endif
 
 TARGET_KERNEL_SOURCE := $(KERNEL_DIR)
