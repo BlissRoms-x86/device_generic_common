@@ -765,8 +765,8 @@ function init_hal_sensors()
 function init_hal_surface()
 {
 	case "$PRODUCT" in
-		*Surface*Pro*[4-9]*|*Surface*Book*|*Surface*Laptop*[1~4]*|*Surface*Laptop*Studio*)
-			set_property vendor.iptsd.device $(iptsd-find-hidraw)
+		*Surface*Pro*[4-9]*|*Surface*Book*|*Surface*Laptop*[1-4]*|*Surface*Laptop*Studio*)
+			set_property vendor.iptsd.device "$(iptsd-find-hidraw)"
 			;;
 	esac
 
