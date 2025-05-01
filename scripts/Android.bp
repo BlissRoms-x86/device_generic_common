@@ -10,12 +10,6 @@ sh_binary {
 }
 
 sh_binary {
-    name: "recovery.bms.sh",
-    src: "boot-mode-selection.sh",
-    recovery: true,
-}
-
-sh_binary {
     name: "set_iptsd_device",
     src: "set_iptsd_device",
     vendor: true,
