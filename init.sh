@@ -628,10 +628,10 @@ function init_hal_power()
 	# TODO
 	case "$PRODUCT" in
 		HP*Omni*|OEMB|Standard*PC*|Surface*3|T10*TA|VMware*)
-			SLEEP_STATE=none
+			export SLEEP_STATE=${SLEEP_STATE:-none}
 			;;
 		e-tab*Pro)
-			SLEEP_STATE=force
+			export SLEEP_STATE=${SLEEP_STATE:-force}
 			;;
 		*)
 			;;
@@ -941,11 +941,15 @@ function do_bootcomplete()
 			pm disable com.android.bluetooth
 			;;
 		X80*Power)
-			set_property power.nonboot-cpu-off 1
+			export POWER_NONBOOT_CPU_OFF=${POWER_NONBOOT_CPU_OFF:-1}
 			;;
 		*)
 			;;
 	esac
+
+    if [ "$POWER_NONBOOT_CPU_OFF" -ge 1 ]; then
+        set_property power.nonboot-cpu-off 1
+    fi
 
 	# initialize audio in bootcomplete
 	init_hal_audio_bootcomplete
