@@ -477,14 +477,9 @@ function init_egl()
 	fi
 
 	# Set default GPU render
-	if [ -z ${GPU_OVERRIDE+x} ]; then
-		echo ""
-	else
-		set_property gralloc.gbm.device /dev/dri/$GPU_OVERRIDE
-		set_property vendor.hwc.drm.device /dev/dri/$GPU_OVERRIDE
-		set_property hwc.drm.device /dev/dri/$GPU_OVERRIDE
-	fi
-
+	GPU_OVERRIDE=${GPU_OVERRIDE:-card0}
+	set_property gralloc.gbm.device /dev/dri/$GPU_OVERRIDE
+	set_property vendor.hwc.drm.device /dev/dri/$GPU_OVERRIDE
 }
 
 function init_hal_hwcomposer()
