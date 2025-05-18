@@ -170,10 +170,11 @@ DEVICE_MANIFEST_FILE := device/generic/common/manifest.xml
 #BOARD_SEPOLICY_DIRS += device/generic/common/sepolicy/nonplat \
 #                       system/bt/vendor_libs/linux/sepolicy \
 #                       device/generic/common/sepolicy/celadon/graphics/mesa \
-#                       device/generic/common/sepolicy/celadon/thermal \
 #                       vendor/intel/proprietary/houdini/sepolicy \
 #                       vendor/google/proprietary/widevine-prebuilt/sepolicy
 #
+BOARD_SEPOLICY_DIRS += $(LOCAL_COMMON_TREE)/sepolicy/celadon/thermal \
+						$(LOCAL_COMMON_TREE)/sepolicy/celadon/thermal/thermal-daemon
 SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(LOCAL_COMMON_TREE)/sepolicy/plat_private
 SYSTEM_EXT_PUBLIC_SEPOLICY_DIRS += $(LOCAL_COMMON_TREE)/sepolicy/public
 BOARD_VENDOR_SEPOLICY_DIRS += device/generic/common/sepolicy/vendor
