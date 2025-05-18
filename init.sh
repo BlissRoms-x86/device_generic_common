@@ -872,7 +872,7 @@ function init_prepare_ota()
 	# If there's slot set, turn on bootctrl
 	# If not, disable the OTA app (in bootcomplete)
 	if [ "$(getprop ro.boot.slot_suffix)" ]; then
-		start vendor.boot-hal-1-1
+		start vendor.boot-hal-1-2
 	fi
 }
 
