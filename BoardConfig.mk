@@ -171,6 +171,7 @@ BOARD_SEPOLICY_DIRS += device/generic/common/sepolicy/nonplat \
                        system/bt/vendor_libs/linux/sepolicy \
                        device/generic/common/sepolicy/celadon/graphics/mesa \
                        device/generic/common/sepolicy/celadon/thermal \
+                       device/generic/common/sepolicy/celadon/thermal/thermal-daemon \
                        vendor/intel/proprietary/houdini/sepolicy \
                        vendor/google/proprietary/widevine-prebuilt/sepolicy
 
