@@ -384,7 +384,7 @@ function init_hal_gralloc()
 				GRALLOC=${GRALLOC:-gbm}
 			fi
 			;&
-		*amdgpu|*vmwgfx*)
+		*amdgpu|*vmwgfx*|*xe)
 			GRALLOC=${GRALLOC:-minigbm}
 			HWC=${HWC:-drm_minigbm}
 			;&
@@ -592,7 +592,7 @@ function init_hal_vulkan()
 {
 	if [ "$HWACCEL" != "0" ]; then
 		case "$(readlink /sys/class/graphics/fb0/device/driver)" in
-			*i915)
+			*i915|*xe)
 				if [ "$(cat /sys/kernel/debug/dri/0/i915_capabilities | grep -e 'gen' -e 'graphics version' | awk '{print $NF}')" -lt 9 ]; then
 					VULKAN=${VULKAN:-intel_hasvk}
 				else
