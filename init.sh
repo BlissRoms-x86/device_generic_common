@@ -399,13 +399,12 @@ function init_hal_gralloc()
 			HWC=${HWC:-drm_minigbm}
 			;&
 		*i915)
-			if [ "$(cat /sys/kernel/debug/dri/0/i915_capabilities | grep -e 'gen' -e 'graphics version' | awk '{print $NF}')" -ge 8 ]; then
-				HWC=${HWC:-drm_minigbm_celadon}
-				GRALLOC=${GRALLOC:-minigbm}
-			else
-				HWC=${HWC:-drm_celadon}
-				GRALLOC=${GRALLOC:-gbm}
+			if [ "$(cat /sys/kernel/debug/dri/0/i915_capabilities | grep -e 'gen' -e 'graphics version' | awk '{print $NF}')" -lt 8 ]; then
+				set_property vendor.hwc.drm.avoid_using_alpha_bits_for_framebuffer 1
+				set_property vendor.hwc.drm.disable_planes 1
 			fi
+			HWC=${HWC:-drm_minigbm}
+			GRALLOC=${GRALLOC:-minigbm}
 			;&
 		*amdgpu|*vmwgfx*|*xe)
 			GRALLOC=${GRALLOC:-minigbm}
