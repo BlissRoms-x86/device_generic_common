@@ -21,6 +21,9 @@ function init_graphics()
 		*i915)
 			set_property ro.minui.pixel_format RGBX_8888
 			;;
+		*amdgpu)
+			set_property ro.minui.pixel_format ARGB_8888
+			;;
 		*vmwgfx)
 			set_property ro.minui.pixel_format BGRX_8888
 			;;
