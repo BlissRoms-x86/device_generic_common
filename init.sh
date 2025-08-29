@@ -399,7 +399,7 @@ function init_hal_gralloc()
 			HWC=${HWC:-drm_minigbm}
 			;&
 		*i915)
-			if [ "$(cat /sys/kernel/debug/dri/0/i915_capabilities | grep -e 'gen' -e 'graphics version' | awk '{print $NF}')" -lt 8 ]; then
+			if [ "$(cat /sys/kernel/debug/dri/0/i915_capabilities | grep -e 'gen' -e 'graphics version' | awk '{print $NF}')" -lt 9 ]; then
 				set_property vendor.hwc.drm.avoid_using_alpha_bits_for_framebuffer 1
 				set_property vendor.hwc.drm.disable_planes 1
 			fi
