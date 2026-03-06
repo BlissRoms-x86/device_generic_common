@@ -38,7 +38,6 @@ PRODUCT_PACKAGES := \
     ssh \
     sshd \
     tablet-mode \
-    v86d \
     wacom-input \
 
 ifeq ($(IS_GO_VERSION), true)

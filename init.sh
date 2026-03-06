@@ -344,23 +344,25 @@ function set_drm_mode()
 	[ -n "$drm_mode" ] && set_property debug.drm.mode.force $drm_mode
 }
 
-function init_uvesafb()
-{
-	UVESA_MODE=${UVESA_MODE:-${video%@*}}
-
-	case "$PRODUCT" in
-		ET2002*)
-			UVESA_MODE=${UVESA_MODE:-1600x900}
-			;;
-		*)
-			;;
-	esac
-
-	modprobe uvesafb mode_option=${UVESA_MODE:-1024x768}-32 ${UVESA_OPTION:-mtrr=3 scroll=redraw} v86d=/system/bin/v86d
-}
-
 function init_hal_gralloc()
 {
+	# Only search for a card if GPU_OVERRIDE hasn't already been set
+	if [ -z "$GPU_OVERRIDE" ]; then
+		for i in $(seq 0 9); do
+			if [ -c "/dev/dri/card$i" ]; then
+				GPU_OVERRIDE="card$i"
+				break
+			fi
+		done
+	fi
+
+	# Fallback just in case /dev/dri is completely empty or inaccessible
+	GPU_OVERRIDE=${GPU_OVERRIDE:-card0}
+
+	# Set default GPU render
+	set_property gralloc.gbm.device /dev/dri/$GPU_OVERRIDE
+	set_property vendor.hwc.drm.device /dev/dri/$GPU_OVERRIDE
+
 	case "$GPU" in
 		*virtio_gpu|*virtio-pci)
 			HWC=${HWC:-drm_minigbm}
@@ -397,9 +399,6 @@ function init_hal_gralloc()
 				export HWACCEL=0
 			fi
 			;;
-		"")
-			init_uvesafb
-			;&
 		*)
 			export HWACCEL=0
 			;;
@@ -485,11 +484,6 @@ function init_egl()
 	else
 		set_property debug.renderengine.backend $FORCE_RENDERENGINE
 	fi
-
-	# Set default GPU render
-	GPU_OVERRIDE=${GPU_OVERRIDE:-card0}
-	set_property gralloc.gbm.device /dev/dri/$GPU_OVERRIDE
-	set_property vendor.hwc.drm.device /dev/dri/$GPU_OVERRIDE
 }
 
 function init_hal_hwcomposer()
