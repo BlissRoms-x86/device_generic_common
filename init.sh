@@ -361,7 +361,7 @@ function init_uvesafb()
 
 function init_hal_gralloc()
 {
-	case "$(readlink /sys/class/graphics/fb0/device/driver)" in
+	case "$GPU" in
 		*virtio_gpu|*virtio-pci)
 			HWC=${HWC:-drm_minigbm}
 			GRALLOC=${GRALLOC:-minigbm_arcvm}
@@ -495,7 +495,7 @@ function init_egl()
 function init_hal_hwcomposer()
 {
 	if [ "$HWACCEL" == "0" ] || 
-	[[ "$(readlink /sys/class/graphics/fb0/device/driver)" == *radeon* ]]; then
+	[[ "$GPU" == *radeon* ]]; then
 		export HWC_HIDL=${HWC_HIDL:-default-2.1}
 	fi
 
@@ -582,7 +582,7 @@ function init_hal_media()
 
 ## Handle which GPU driver will use which pixel format
 ## c2.ffmpeg can be able to switch now
-	case "$(readlink /sys/class/graphics/fb0/device/driver)" in
+	case "$GPU" in
 		*virtio_gpu|*virtio-pci|*nouveau|*radeon|*vmwgfx*)
 			set_property persist.ffmpeg-codec2.pixel_format RGBX_8888
 			;;
@@ -599,7 +599,7 @@ function init_hal_media()
 function init_hal_vulkan()
 {
 	if [ "$HWACCEL" != "0" ]; then
-		case "$(readlink /sys/class/graphics/fb0/device/driver)" in
+		case "$GPU" in
 			*i915|*xe)
 				if [ "$(cat /sys/kernel/debug/dri/0/i915_capabilities | grep -e 'gen' -e 'graphics version' | awk '{print $NF}')" -lt 9 ]; then
 					VULKAN=${VULKAN:-intel_hasvk}
@@ -1022,6 +1022,7 @@ BOARD=$(cat $DMIPATH/board_name)
 PRODUCT=$(cat $DMIPATH/product_name)
 VENDOR=$(cat $DMIPATH/sys_vendor)
 UEVENT=$(cat $DMIPATH/uevent)
+GPU=$(readlink /sys/class/graphics/fb0/device/driver)
 
 # import cmdline variables
 for c in `cat /proc/cmdline`; do
