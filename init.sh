@@ -386,10 +386,15 @@ function init_hal_gralloc()
 			HWC=${HWC:-drm_minigbm}
 			;&
 		*radeon)
-			if [ "$HWACCEL" != "0" ]; then
+			# Remove when Virtualbox got svga working well
+		    if { [[ "$BOARD" != *VirtualBox* ]] && 
+				 [ "$HWACCEL" != "0" ]; } || 
+				 [ "$HWACCEL" == "1" ]; then
 				${HWC:+set_property ro.hardware.hwcomposer $HWC}
 				set_property ro.hardware.gralloc ${GRALLOC:-gbm}
 				set_drm_mode
+			else
+				export HWACCEL=0
 			fi
 			;;
 		"")
@@ -430,6 +435,11 @@ function init_hal_gralloc()
 
 function init_egl()
 {
+
+	# Remove when Virtualbox got svga working well
+    if [[ "$BOARD" == *VirtualBox* ]]; then
+        export HWACCEL=0
+    fi
 
 	if [ "$HWACCEL" == "0" ] && [ "$MESA_LLVMPIPE" != "1" ]; then
 		export EGL=${EGL:-angle}
