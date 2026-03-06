@@ -413,6 +413,9 @@ function init_hal_gralloc()
 			minigbm_gbm_mesa)
 				start vendor.graphics.allocator-4-0-gbm_mesa
 			;;
+			minigbm_nouveau)
+				start vendor.graphics.allocator-4-0-nouveau
+			;;
 			*)
 			;;
 		esac
