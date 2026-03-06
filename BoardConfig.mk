@@ -110,8 +110,8 @@ BOARD_MESA3D_BUILD_LIBGBM := true
 BOARD_MESA3D_GALLIUM_DRIVERS := crocus iris i915 nouveau r600 radeonsi svga virgl zink softpipe llvmpipe
 BOARD_MESA3D_VULKAN_DRIVERS := amd intel intel_hasvk virtio swrast nouveau
 BOARD_MESA3D_GALLIUM_VA := enabled
-BOARD_MESA3D_VIDEO_CODECS := h264dec h265dec vc1dec av1dec
-BOARD_MESA3D_MESON_ARGS := -Dallow-kcmp=enabled -Dintel-rt=enabled -Dmesa-clc=system -Dprecomp-compiler=system
+BOARD_MESA3D_VIDEO_CODECS := h264dec h265dec vc1dec av1dec vp9dec
+BOARD_MESA3D_MESON_ARGS := -Dallow-kcmp=enabled -Dmesa-clc=system -Dprecomp-compiler=system
 BUILD_EMULATOR_OPENGL := true
 
 BOARD_KERNEL_CMDLINE := $(if $(filter x86_64,$(TARGET_ARCH) $(TARGET_KERNEL_ARCH)),, vmalloc=192M)
