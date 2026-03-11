@@ -347,12 +347,36 @@ function set_drm_mode()
 function init_hal_gralloc()
 {
 	# Only search for a card if GPU_OVERRIDE hasn't already been set
+	# 
+	# There is a tested case that when init_hal_gralloc() start, simpledrm still haven't 
+	# properly uninitialize yet, making /dev/dri/card0 still be able to exist and
+	# we accidentally pick it. Search to see if the remains of simpledrm is still here 
+	# and put in another for loop and run until we get the correct result.
 	if [ -z "$GPU_OVERRIDE" ]; then
-		for i in $(seq 0 9); do
-			if [ -c "/dev/dri/card$i" ]; then
-				GPU_OVERRIDE="card$i"
-				break
-			fi
+		# Loop with a timeout (e.g., 20 attempts, 0.5s each = 10 seconds max)
+		for attempt in $(seq 1 20); do
+			for i in $(seq 0 9); do
+				if [ -c "/dev/dri/card$i" ]; then
+					local driver_name=""
+					
+					if [ -L "/sys/class/drm/card$i/device/driver" ]; then
+						driver_name=$(basename $(readlink /sys/class/drm/card$i/device/driver))
+					elif [ -f "/sys/class/drm/card$i/device/uevent" ]; then
+						driver_name=$(grep DRIVER= /sys/class/drm/card$i/device/uevent | cut -d= -f2)
+					fi
+
+					# Ignore simple framebuffers or unpopulated sysfs entries
+					if [[ "$driver_name" == *simple* ]] || [ -z "$driver_name" ]; then
+						if [ "$HWACCEL" != "0" ]; then
+							continue
+						fi
+					fi
+
+					GPU_OVERRIDE="card$i"
+					break 2
+				fi
+			done
+			sleep 0.5
 		done
 	fi
 
