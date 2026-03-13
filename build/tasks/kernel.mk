@@ -86,9 +86,6 @@ $(BUILT_KERNEL_TARGET): $(KERNEL_DOTCONFIG_FILE) $(M4) $(LEX) $(BISON)
 	# A dirty hack to use ar & ld
 	$(mk_kernel) olddefconfig
 	$(mk_kernel) $(KERNEL_TARGET) $(if $(MOD_ENABLED),modules)
-	$(COPY_FIRMWARE_SCRIPT) --zstd -v $(FIRMWARE_DEST)
-	$(if $(TARGET_HAS_SILEAD_FIRMWARE), $(COPY_FIRMWARE_SILEAD_SCRIPT) --zstd -v $(FIRMWARE_DEST))
-	$(if $(TARGET_HAS_SOF_FIRMWARE), FW_DEST=$(FIRMWARE_DEST)/intel FW_LOCATION=$(SOF_FIRMWARE_DIR) $(COPY_FIRMWARE_SOF_SCRIPT) $(SOF_FIRMWARE_VERSION))
 	$(if $(FIRMWARE_ENABLED),$(mk_kernel) INSTALL_MOD_PATH=$(abspath $(TARGET_OUT)) firmware_install)
 
 $(INSTALLED_KERNELIMAGE_TARGET): $(BUILT_KERNEL_TARGET)
@@ -114,12 +111,48 @@ $(KERNEL_MODULES_DEP): $(BUILT_KERNEL_TARGET) $(ALL_EXTRA_MODULES)
 	$(hide) rm -f $(TARGET_OUT)/lib/modules/*/{build,source}
 endif
 
-$(BUILT_SYSTEMIMAGE): $(KERNEL_MODULES_DEP)
+# Define the actual output markers (using a timestamp or dummy file in the vendor directory)
+FIRMWARE_INTERMEDIATES := $(call intermediates-dir-for,PACKAGING,firmware)
+FIRMWARE_SOF_DEP := $(FIRMWARE_INTERMEDIATES)/sof_done
+FIRMWARE_SILEAD_DEP := $(FIRMWARE_INTERMEDIATES)/silead_done
+FIRMWARE_GENERIC_DEP := $(FIRMWARE_INTERMEDIATES)/generic_done
+
+# Target for SOF Firmware
+$(FIRMWARE_SOF_DEP): $(SOF_FIRMWARE_DIR)/install.sh
+	@echo "Copying SOF firmware..."
+	$(hide) mkdir -p $(FIRMWARE_DEST)
+	$(hide) FW_DEST=$(FIRMWARE_DEST)/intel FW_LOCATION=$(SOF_FIRMWARE_DIR) \
+		/bin/sh $(COPY_FIRMWARE_SOF_SCRIPT) $(VER)
+	$(hide) touch $@
+
+# Target for Silead Firmware
+$(FIRMWARE_SILEAD_DEP):
+	@echo "Copying Silead firmware..."
+	$(hide) mkdir -p $(FIRMWARE_DEST)
+	$(hide) /bin/sh $(COPY_FIRMWARE_SILEAD_SCRIPT) $(FIRMWARE_DEST)
+	$(hide) touch $@
+
+# Target for Generic Firmware
+$(FIRMWARE_GENERIC_DEP):
+	@echo "Copying generic firmware..."
+	$(hide) mkdir -p $(FIRMWARE_DEST)
+	$(hide) /bin/sh $(COPY_FIRMWARE_SCRIPT) $(FIRMWARE_DEST)
+	$(hide) touch $@
+
+# Global Firmware Alias
+firmware_sof: $(FIRMWARE_SOF_DEP)
+firmware_silead: $(FIRMWARE_SILEAD_DEP)
+firmware_generic: $(FIRMWARE_GENERIC_DEP)
+
+firmware_all: firmware_sof firmware_silead firmware_generic
+
+$(BUILT_SYSTEMIMAGE): $(KERNEL_MODULES_DEP) $(FIRMWARE_SOF_DEP) $(FIRMWARE_SILEAD_DEP) $(FIRMWARE_GENERIC_DEP)
 
 installclean: FILES += $(KBUILD_OUTPUT) $(INSTALLED_KERNEL_TARGET)
 
 TARGET_PREBUILT_KERNEL := $(BUILT_KERNEL_TARGET)
 
+.PHONY: firmware_sof firmware_silead firmware_generic firmware_all
 .PHONY: kernel
 kernel: $(INSTALLED_KERNEL_TARGET) $(KERNEL_MODULES_DEP)
 
