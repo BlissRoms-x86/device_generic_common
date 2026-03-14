@@ -605,7 +605,11 @@ function init_hal_media()
 			set_property persist.ffmpeg-codec2.pixel_format RGBX_8888
 			;;
 		*i915|*xe|*amdgpu)
-			set_property persist.ffmpeg-codec2.pixel_format YUV_420
+			if [ "$(getprop ro.hardware.gralloc)" != "minigbm" ]; then
+				set_property persist.ffmpeg-codec2.pixel_format RGBX_8888
+			else
+				set_property persist.ffmpeg-codec2.pixel_format YUV_420
+			fi
 			;;
 		*)
 			set_property persist.ffmpeg-codec2.pixel_format RGB_565
