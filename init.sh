@@ -601,7 +601,7 @@ function init_hal_media()
 ## Handle which GPU driver will use which pixel format
 ## c2.ffmpeg can be able to switch now
 	case "$GPU" in
-		*virtio_gpu|*virtio-pci|*nouveau|*radeon|*vmwgfx*)
+		*virtio_gpu|*virtio-pci|*nouveau|*radeon)
 			set_property persist.ffmpeg-codec2.pixel_format RGBX_8888
 			;;
 		*i915|*xe|*amdgpu)
