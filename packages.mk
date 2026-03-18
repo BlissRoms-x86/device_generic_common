@@ -137,6 +137,9 @@ PRODUCT_PACKAGES += \
     libaptX_encoder \
     libaptXHD_encoder
 
+# usb.ids & pci.ids
+PRODUCT_PACKAGES += usb.ids pci.ids
+
 ## Enable hidden features on Android
 PRODUCT_PACKAGES += \
 	pc.xml \

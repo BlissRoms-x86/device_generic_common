@@ -1,0 +1,13 @@
+prebuilt_etc {
+    name: "pci.ids",
+    src: "pci.ids",
+    filename: "pci.ids",
+    vendor: true,
+}
+
+prebuilt_etc {
+    name: "usb.ids",
+    src: "usb.ids",
+    filename: "usb.ids",
+    vendor: true,
+}
