@@ -8,7 +8,9 @@
 #      http://www.apache.org/licenses/LICENSE-2.0
 #
 
-TARGET_CLANG_PATH := prebuilts/clang/host/linux-x86/clang-r547379/bin
+TARGET_CLANG_PATH := prebuilts/clang/host/linux-x86/clang-r584948b/bin
+TARGET_RUST_PATH := prebuilts/rust-toolchain/linux-x86/1.93.1/bin
+TARGET_BINDGEN_PATH := prebuilts/clang-tools-kernel/linux-x86/bin
 
 ifneq ($(TARGET_NO_KERNEL),true)
 
@@ -31,6 +33,21 @@ KERNEL_CONFIG_DIR := arch/x86/configs
 
 ifeq ($(TARGET_KERNEL_ARCH),x86_64)
 CROSS_COMPILE := $(abspath $(TARGET_TOOLS_PREFIX))
+
+# --- RUST TOOLCHAIN SETUP ---
+# Set to 'true' to use ~/.rustup instead of AOSP prebuilts
+USE_LOCAL_RUSTUP ?= false
+
+ifeq ($(USE_LOCAL_RUSTUP),true)
+    RUST_BIN_DIR := $(HOME)/.cargo/bin
+    BINDGEN_BIN_DIR := $(HOME)/.cargo/bin
+    LIBCLANG_DIR := $(abspath $(TARGET_CLANG_PATH)/../lib)
+else
+    RUST_BIN_DIR := $(abspath $(TARGET_RUST_PATH))
+    BINDGEN_BIN_DIR := $(abspath $(TARGET_BINDGEN_PATH))
+    LIBCLANG_DIR := $(abspath $(TARGET_CLANG_PATH)/../lib)
+endif
+
 KERNEL_CLANG_FLAGS := \
         LLVM=1 \
         CC=$(abspath $(TARGET_CLANG_PATH)/clang) \
@@ -46,7 +63,14 @@ KERNEL_CLANG_FLAGS := \
         HOSTCXX=$(abspath $(TARGET_CLANG_PATH)/clang++) \
         HOSTLD=$(abspath $(TARGET_CLANG_PATH)/ld.lld) \
         HOSTLDFLAGS=-fuse-ld=lld \
-        HOSTAR=$(abspath $(TARGET_CLANG_PATH)/llvm-ar)
+		HOSTAR=$(abspath $(TARGET_CLANG_PATH)/llvm-ar) \
+		LLVM_LINK=$(abspath $(TARGET_CLANG_PATH)/llvm-link) \
+        RUSTC=$(RUST_BIN_DIR)/rustc \
+        HOSTRUSTC=$(RUST_BIN_DIR)/rustc \
+        BINDGEN=$(BINDGEN_BIN_DIR)/bindgen \
+        RUSTFMT=$(RUST_BIN_DIR)/rustfmt \
+        CLIPPY=$(RUST_BIN_DIR)/clippy-driver \
+        LIBCLANG_PATH=$(LIBCLANG_DIR)
 else
 $(error not implemented)
 endif
