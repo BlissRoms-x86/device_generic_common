@@ -17,3 +17,4 @@
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
 bash ${CURRENT_DIR}/download_ids.sh
+bash ${CURRENT_DIR}/download_toolchain.sh
