@@ -470,9 +470,8 @@ function init_egl()
 
 	set_property ro.hardware.egl ${EGL:-mesa}
 
-	if [ "$MESA_LLVMPIPE" -ge "1" ] || [ "$VULKAN" == "lvp" ]; then
+	if [ "$MESA_LLVMPIPE" -ge "1" ]; then
 		set_property mesa.libgl.always.software true
-		modprobe vgem
 	fi
 
 	if [ "$MESA_ZINK" -ge "1" ]; then
