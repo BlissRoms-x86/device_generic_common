@@ -1,2 +1,3 @@
 # Ignore downloaded ID files
 ids/*.ids
+wireless-regdb/regulatory.db*

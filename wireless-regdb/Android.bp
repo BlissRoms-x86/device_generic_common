@@ -1,0 +1,11 @@
+prebuilt_firmware {
+    name: "regulatory.db",
+    src: "regulatory.db",
+    vendor: true,
+}
+
+prebuilt_firmware {
+    name: "regulatory.db.p7s",
+    src: "regulatory.db.p7s",
+    vendor: true,
+}
