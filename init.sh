@@ -399,7 +399,11 @@ function init_hal_gralloc()
 			HWC=${HWC:-drm_minigbm}
 			;&
 		*i915)
-			if [ "$(cat /sys/kernel/debug/dri/0/i915_capabilities | grep -e 'gen' -e 'graphics version' | awk '{print $NF}')" -lt 9 ]; then
+			I915_GPU_GEN=$(cat /sys/kernel/debug/dri/${GPU_OVERRIDE#card}/i915_capabilities 2>/dev/null |
+				grep -e 'gen' -e 'graphics version' |
+				awk '{print $NF}')
+
+			if [ "$I915_GPU_GEN" -lt 9 ]; then
 				set_property vendor.hwc.drm.avoid_using_alpha_bits_for_framebuffer 1
 				set_property vendor.hwc.drm.disable_planes 1
 			fi
@@ -620,12 +624,15 @@ function init_hal_vulkan()
 {
 	if [ "$HWACCEL" != "0" ]; then
 		case "$GPU" in
-			*i915|*xe)
-				if [ "$(cat /sys/kernel/debug/dri/0/i915_capabilities | grep -e 'gen' -e 'graphics version' | awk '{print $NF}')" -lt 9 ]; then
+			*i915)
+				if [ "$I915_GPU_GEN" -lt 9 ]; then
 					VULKAN=${VULKAN:-intel_hasvk}
 				else
 					VULKAN=${VULKAN:-intel}
 				fi
+				;&
+			*xe)
+				VULKAN=${VULKAN:-intel}
 				;&
 			*amdgpu)
 				VULKAN=${VULKAN:-radeon}
