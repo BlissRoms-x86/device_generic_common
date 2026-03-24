@@ -153,14 +153,14 @@ $(FIRMWARE_SOF_DEP): $(SOF_FIRMWARE_DIR)/install.sh
 $(FIRMWARE_SILEAD_DEP):
 	@echo "Copying Silead firmware..."
 	$(hide) mkdir -p $(FIRMWARE_DEST)
-	$(hide) /bin/sh $(COPY_FIRMWARE_SILEAD_SCRIPT) $(FIRMWARE_DEST)
+	$(hide) /bin/sh $(COPY_FIRMWARE_SILEAD_SCRIPT) --zstd $(FIRMWARE_DEST)
 	$(hide) touch $@
 
 # Target for Generic Firmware
 $(FIRMWARE_GENERIC_DEP):
 	@echo "Copying generic firmware..."
 	$(hide) mkdir -p $(FIRMWARE_DEST)
-	$(hide) /bin/sh $(COPY_FIRMWARE_SCRIPT) $(FIRMWARE_DEST)
+	$(hide) /bin/sh $(COPY_FIRMWARE_SCRIPT) --zstd $(FIRMWARE_DEST)
 	$(hide) touch $@
 
 # Global Firmware Alias
