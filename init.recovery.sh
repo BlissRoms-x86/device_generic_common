@@ -42,6 +42,10 @@ function init_graphics()
 		sleep 0.5
 	done
 
+	if [ "$HWACCEL" == "0" ]; then
+		set_property ro.minui.graphics_backend fbdev
+	fi
+
 	case "$(readlink /sys/class/graphics/fb0/device/driver)" in
 		*i915)
 			set_property ro.minui.pixel_format RGBX_8888
