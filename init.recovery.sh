@@ -17,6 +17,31 @@ function set_prop_if_empty()
 
 function init_graphics()
 {
+	# Loop with a timeout (e.g., 20 attempts, 0.5s each = 10 seconds max)
+	for attempt in $(seq 1 20); do
+		for i in $(seq 0 9); do
+			if [ -c "/dev/dri/card$i" ]; then
+				local driver_name=""
+				
+				if [ -L "/sys/class/drm/card$i/device/driver" ]; then
+					driver_name=$(basename $(readlink /sys/class/drm/card$i/device/driver))
+				elif [ -f "/sys/class/drm/card$i/device/uevent" ]; then
+					driver_name=$(grep DRIVER= /sys/class/drm/card$i/device/uevent | cut -d= -f2)
+				fi
+
+				# Ignore simple framebuffers or unpopulated sysfs entries
+				if [[ "$driver_name" == *simple* ]] || [ -z "$driver_name" ]; then
+					if [ "$HWACCEL" != "0" ]; then
+						continue
+					fi
+				fi
+
+				break 2
+			fi
+		done
+		sleep 0.5
+	done
+
 	case "$(readlink /sys/class/graphics/fb0/device/driver)" in
 		*i915)
 			set_property ro.minui.pixel_format RGBX_8888
