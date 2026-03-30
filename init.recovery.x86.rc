@@ -20,6 +20,10 @@ on early-fs
     exec u:r:init:s0 -- /system/bin/sh /system/etc/init.fstab.sh
 
 on post-fs
+    # Mount ESP if system is UEFI
+    mkdir /boot/efi 0700 root root
+    mount vfat /dev/block/by-name/esp /boot/efi rw,umask=0077
+
     exec u:r:init:s0 -- /system/bin/sh /system/etc/init.recovery.sh
     exec u:r:init:s0 -- /system/bin/sh /system/bin/recovery.bms.sh
 
