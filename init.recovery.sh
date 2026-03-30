@@ -46,7 +46,29 @@ function init_graphics()
 		set_property ro.minui.graphics_backend fbdev
 	fi
 
-	case "$(readlink /sys/class/graphics/fb0/device/driver)" in
+	# Wait for Framebuffer device
+	local fb_node="fb0"
+	for attempt in $(seq 1 20); do
+		for j in $(seq 0 9); do
+			# Check if the driver symlink is populated
+			if [ -L "/sys/class/graphics/fb$j/device/driver" ]; then
+				local fb_driver_name=$(basename $(readlink /sys/class/graphics/fb$j/device/driver))
+
+				# Ignore simple framebuffers or unpopulated sysfs entries
+				if [[ "$fb_driver_name" == *simple* ]] || [ -z "$fb_driver_name" ]; then
+					if [ "$HWACCEL" != "0" ]; then
+						continue
+					fi
+				fi
+
+				fb_node="fb$j"
+				break 2
+			fi
+		done
+		sleep 0.5
+	done
+
+	case "$(readlink /sys/class/graphics/$fb_node/device/driver)" in
 		*i915)
 			set_property ro.minui.pixel_format RGBX_8888
 			;;
