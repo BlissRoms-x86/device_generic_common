@@ -74,7 +74,7 @@ function init_misc()
 function init_recovery_device_link()
 {
 	# Insert /data to recovery.fstab
-	if grep -E '^\s*[^#].+ /data ' "$(ls /fstab.*)" >> /etc/recovery.fstab; then
+	if grep -E '^[[:space:]]*[^#].+ /data ' "$(ls /fstab.*)" >> /etc/recovery.fstab; then
 		set_property sys.recovery.data_is_part true
 	fi
 
@@ -113,22 +113,14 @@ for c in `cat /proc/cmdline`; do
 			;;
 		*=*)
 			eval $c
-			if [ -z "$1" ]; then
-				case $c in
-					DEBUG=*)
-						[ -n "$DEBUG" ] && set_property debug.logcat 1
-						[ "$DEBUG" = "0" ] || SETUPWIZARD=${SETUPWIZARD:-0}
-						;;
-					DPI=*)
-						set_property ro.sf.lcd_density "$DPI"
-						;;
-				esac
-			fi
 			;;
 	esac
 done
 
-[ -n "$DEBUG" ] && set -x || exec &> /dev/null
+if [ -n "$DEBUG" ]; then
+    exec > /tmp/recovery_init.log 2>&1
+	set -x
+fi
 
 case "$1" in
 	netconsole)
