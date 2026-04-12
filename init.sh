@@ -567,6 +567,20 @@ function init_hal_media()
 	    set_property debug.ffmpeg-codec2.hwaccel.drm 0
 	fi
 
+## Handle which GPU driver will use which pixel format
+## c2.ffmpeg can be able to switch now
+	case "$(readlink /sys/class/graphics/fb0/device/driver)" in
+		*virtio_gpu|*virtio-pci|*nouveau|*radeon|*vmwgfx*)
+			set_property persist.ffmpeg-codec2.pixel_format RGBX_8888
+			;;
+		*i915|*xe|*amdgpu)
+			set_property persist.ffmpeg-codec2.pixel_format YUV_420
+			;;
+		*)
+			set_property persist.ffmpeg-codec2.pixel_format RGB_565
+			;;
+	esac
+
 }
 
 function init_hal_vulkan()
