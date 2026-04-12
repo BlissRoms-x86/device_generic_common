@@ -527,11 +527,6 @@ function init_hal_media()
 		set_property ro.yuv420.disable false
 	fi
 
-	if [ "$BOARD" == "Jupiter" ] && [ "$VENDOR" == "Valve" ]
-	then
-		FFMPEG_CODEC2_PREFER=${FFMPEG_CODEC2_PREFER:-1}
-	fi
-
 #FFMPEG Codec Setup
 ## Turn on/off FFMPEG OMX by default
 	if [ "$FFMPEG_OMX_CODEC" -ge "1" ]; then
@@ -552,12 +547,6 @@ function init_hal_media()
         set_property media.sf.hwaccel 0
     else
         set_property media.sf.hwaccel 1
-    fi
-## Put c2.ffmpeg to the highest rank amongst the media codecs
-    if [ "$FFMPEG_CODEC2_PREFER" -ge "1" ]; then
-        set_property debug.ffmpeg-codec2.rank 0
-    else
-        set_property debug.ffmpeg-codec2.rank 4294967295
     fi
 ## FFMPEG deinterlace, we will put both software mode and VA-API one here
 	if [ -z "${FFMPEG_CODEC2_DEINTERLACE+x}" ]; then
