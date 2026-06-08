@@ -1,3 +1,4 @@
 # Ignore downloaded ID files
 ids/*.ids
+ids/*.hwdb
 wireless-regdb/regulatory.db*

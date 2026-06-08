@@ -137,8 +137,8 @@ PRODUCT_PACKAGES += \
     libaptX_encoder \
     libaptXHD_encoder
 
-# usb.ids & pci.ids
-PRODUCT_PACKAGES += usb.ids pci.ids
+# ids
+PRODUCT_PACKAGES += usb.ids pci.ids 60-sensor.hwdb
 
 # wireless-regdb
 PRODUCT_PACKAGES += regulatory.db regulatory.db.p7s

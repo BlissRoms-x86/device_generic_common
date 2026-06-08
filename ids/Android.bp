@@ -11,3 +11,10 @@ prebuilt_etc {
     filename: "usb.ids",
     vendor: true,
 }
+
+prebuilt_etc {
+    name: "60-sensor.hwdb",
+    src: "60-sensor.hwdb",
+    filename: "60-sensor.hwdb",
+    vendor: true,
+}
