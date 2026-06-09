@@ -1120,6 +1120,26 @@ for c in `cat /proc/cmdline`; do
 						# options: true, false
 						set_property persist.bliss.disable_recents "$FORCE_DISABLE_RECENTS"
 						;;
+					FORCE_MOUSE_PRESENTATION=*)
+						# Force mouse presentation
+						# options: 0, 1
+						set_property persist.mouse.presentation "$FORCE_MOUSE_PRESENTATION"
+						;;
+					FORCE_MOUSE_DISPLAY_ID=*)
+						# Force mouse on Display ID
+						# options: 0, 1, 2, etc.
+						set_property persist.override.cursor_display_id "$FORCE_MOUSE_DISPLAY_ID"
+						;;
+					FORCE_WIN_AS_HOME=*)
+						# Force window as home
+						# options: 0, 1
+						set_property ro.boot.force.win_as_home "$FORCE_WIN_AS_HOME"
+						;;
+					FORCE_RIGHT_MOUSE_AS_BACK=*)
+						# Force right mouse as back
+						# options: true, false
+						set_property ro.boot.force.right_mouse_as_back "$FORCE_RIGHT_MOUSE_AS_BACK"
+						;;
 				esac
 				[ "$SETUPWIZARD" = "0" ] && set_property ro.setupwizard.mode DISABLED
 			fi
