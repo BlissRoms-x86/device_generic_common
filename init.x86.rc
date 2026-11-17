@@ -42,6 +42,18 @@ on post-fs
     chmod 0664 /dev/ion
     chown system system /dev/ion
 
+    # Isolate nativebridge cpuinfo files from the rootfs 'shared:1' peer group
+    # so libnativebridge's bind-mount onto /proc/cpuinfo cannot trigger a 2^N
+    # mount propagation feedback loop in /proc/1/mountinfo.
+    mount none /system/etc/cpuinfo.arm.txt /system/etc/cpuinfo.arm.txt bind
+    mount none none /system/etc/cpuinfo.arm.txt private
+    mount none /system/etc/cpuinfo.arm64.txt /system/etc/cpuinfo.arm64.txt bind
+    mount none none /system/etc/cpuinfo.arm64.txt private
+    mount none /system/lib/arm/cpuinfo /system/lib/arm/cpuinfo bind
+    mount none none /system/lib/arm/cpuinfo private
+    mount none /system/lib64/arm64/cpuinfo /system/lib64/arm64/cpuinfo bind
+    mount none none /system/lib64/arm64/cpuinfo private
+
 on post-fs-data
     # Create the directories used by the Wireless subsystem
     mkdir /data/vendor/wifi 0771 wifi wifi
