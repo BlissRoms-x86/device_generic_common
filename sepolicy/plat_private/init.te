@@ -1,0 +1,2 @@
+# Allow init to self-bind-mount nativebridge cpuinfo files as MS_PRIVATE
+allow init { system_file system_lib_file }:file mounton;
